@@ -1,0 +1,59 @@
+---
+title: "Zomato - Best of Melbourne Analysis"
+author:
+- familyname: Editya
+  othernames: Dea Avega
+  address: Monash University
+  email: XXX
+  correspondingauthor: true
+  qualifications: Master of BA 
+- familyname: Qasim
+  othernames: Muhammad Soban
+  address: Monash University
+  qualifications: Master of BA
+- familyname: Sinha 
+  othernames: Abhishek
+  address: Monash University
+  email: XXX
+  correspondingauthor: true
+  qualifications:  Master of BA
+- familyname: Vu 
+  othernames: Vinny
+  address: Monash University
+  email: vvuu0009@student.monash.edu
+  correspondingauthor: true
+  qualifications:  Master of BA
+department: Our consultancy \newline add names &\newline add names
+organization: ETC5513 Collaborative and Reproductible Practices 
+bibliography: references.bib
+biblio-style: authoryear-comp
+linestretch: 1.5
+output:
+  bookdown::pdf_document2:
+    template: monashreport2.tex
+    fig_caption: yes
+    fig_height: 5
+    fig_width: 8
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
+    number_sections: yes
+    citation_package: biblatex
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      cache=FALSE, 
+                      messages=FALSE, 
+                      warning=FALSE)
+
+```
+
+\section*{Introduction} 
+
+In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr. 
+
+
+
+
