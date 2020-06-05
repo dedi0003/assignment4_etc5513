@@ -54,6 +54,6 @@ knitr::opts_chunk$set(echo = FALSE,
 
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr. 
 
-
+\section*{Is expensive food better than cheap food?}
 
 
