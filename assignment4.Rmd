@@ -48,12 +48,71 @@ knitr::opts_chunk$set(echo = FALSE,
                       messages=FALSE, 
                       warning=FALSE)
 
+library(romato)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(leaflet)
+library(rgdal)
+library(readr)
+library(mapview)
+library(viridis)
+
+```
+
+```{r wrangling}
+# assign API key
+zmt <- zomato$new("1623b413d3a1614e765de7578f83a10b") 
+
+# pull data for category "Best of Melbourne" using Melbourne ID "259"
+melb <- zmt$search(entity_id = "259", entity_type = "city", category = "Best of Melbourne")
+
+melb_top100 <- melb %>% 
+  select(-offers, -establishment_types, -all_reviews.reviews) %>% 
+  mutate(aggregate_rating = as.numeric(aggregate_rating), price_range = as.numeric(price_range), longitude = as.numeric(longitude), latitude = as.numeric(latitude))
+
 ```
 
 \section*{Introduction} 
 
-In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr. 
+In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @leaflet, @rgdal. 
+
+\section*{Scattered Plot Map}
+This report will look at the distribution of best restaurants (having rating equals to and more than 4.8) in Melbourne using shape maps.
+
+```{r, include=FALSE}
 
 
+# melb_top100 %>% 
+#   select(name, aggregate_rating, rating_text, address) %>% 
+#   group_by() %>% 
+#   arrange(desc(aggregate_rating)) %>% 
+#   head(20)
 
+melb_best <- melb_top100 %>% 
+  filter(aggregate_rating >= 4.8)
 
+melb_best
+```
+
+```{r maps, fig.cap="Best of Melbourne", out.width= "100%", cache= TRUE, echo = FALSE}
+
+pal <- colorFactor(palette = "viridis", melb_best$average_cost_for_two)
+
+map_melb <- leaflet(melb_best) %>%
+  addTiles() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addCircleMarkers(lng=melb_best$longitude, 
+                   lat=melb_best$latitude, label = melb_best$name,
+  labelOptions = labelOptions(textOnly = T, noHide = T, textsize = "12px"),
+  radius = ~ifelse(melb_best$average_cost_for_two <= 50, 5, 8),
+  color = ~pal(melb_best$average_cost_for_two),
+  stroke = FALSE, fillOpacity = 0.5
+  )
+  setView(options = , zoom = 12)
+
+map_melb
+```
+
+As we can see from figure \@ref(fig:maps) above, that most of the best restaurans in Melbourne are concentrated in Melbourne CBD area. There is only one restaurant which located outside the CBD, which is **Shira Nui** where located in Glen Waverley area.
+The map also showas whether the restaurant is expensive or not which indicated by larger circle if the average price for two persons is above $50.
