@@ -90,7 +90,8 @@ This report will look at the distribution of best restaurants (having rating equ
 #   head(20)
 
 melb_best <- melb_top100 %>% 
-  filter(aggregate_rating >= 4.8)
+  filter(aggregate_rating >= 4.8) %>% 
+  as.data.frame()
 
 melb_best
 ```
@@ -102,17 +103,21 @@ pal <- colorFactor(palette = "viridis", melb_best$average_cost_for_two)
 map_melb <- leaflet(melb_best) %>%
   addTiles() %>% 
   addProviderTiles(providers$CartoDB.Positron) %>% 
-  addCircleMarkers(lng=melb_best$longitude, 
-                   lat=melb_best$latitude, label = melb_best$name,
+  addCircleMarkers(lng = melb_best$longitude, 
+                   lat = melb_best$latitude, 
+                   label = melb_best$name,
   labelOptions = labelOptions(textOnly = T, noHide = T, textsize = "12px"),
   radius = ~ifelse(melb_best$average_cost_for_two <= 50, 5, 8),
   color = ~pal(melb_best$average_cost_for_two),
   stroke = FALSE, fillOpacity = 0.5
-  )
-  setView(options = , zoom = 12)
+  ) %>% 
+  setView(lng = 144.946457, lat = -37.840935, zoom = 12) #Vic map
+
 
 map_melb
+
 ```
 
+There are ten restaurants which have rating equals and more than 4.8 hence can be categorised as best of the best in Melbourne.
 As we can see from figure \@ref(fig:maps) above, that most of the best restaurans in Melbourne are concentrated in Melbourne CBD area. There is only one restaurant which located outside the CBD, which is **Shira Nui** where located in Glen Waverley area.
-The map also showas whether the restaurant is expensive or not which indicated by larger circle if the average price for two persons is above $50.
+The map also shows whether the restaurant is expensive or not which indicated by larger circle if the average price for two persons is above $50.
