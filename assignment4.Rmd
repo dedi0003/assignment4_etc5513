@@ -227,3 +227,7 @@ melb_top100_filter %>%
 ```
 
 From Figure \@ref(fig:rating-count) we can see restaurants in the second and fourth price category all rank in either the very good or excellent category. 3 has the highest count in all categories, however, this may be due to the higher count. We see all price levels have restaurants with high ratings.  
+
+### Conclusion
+
+From this analysis we find there is no real relationship between restaurant prices and quality suggesting expensive food is not better than cheap.
