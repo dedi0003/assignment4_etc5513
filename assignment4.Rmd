@@ -54,6 +54,18 @@ knitr::opts_chunk$set(echo = FALSE,
 
 \section*{Introduction} 
 
+For this assignment we will be looking at scrapping data from Zomato, one of the largest food aggregators in the world. (Zomato, 2020) Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list (Zomato, 2020) to gain insight into some of the most popular restaurants in Melbourne.   
+
+This report will include four sections looking at:
+
+* Is expensive food better than cheap food?
+* 
+* 
+* 
+
+https://www.zomato.com/melbourne/great-food-no-bull  
+https://www.zomato.com/melbourne
+
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr. 
 
 \section*{Is expensive food better than cheap food?}
