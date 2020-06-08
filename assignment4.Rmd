@@ -93,5 +93,10 @@ melb_top100_filter %>%
   head(20)
 ```
 
+In this section we will be using the Zomato Best of Melbourne to explore whether expensive food is "better" than cheap food. To conduct this analysis, we will be looking at:
 
+* What is considered cheap and expensive food
+* What the breakdown of price ranges of the restaurants is
+* Comparing prices and aggregate ratings 
+* Determining whether there is a relationship between prices and ratings
 
