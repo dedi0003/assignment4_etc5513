@@ -57,6 +57,7 @@ library(rgdal)
 library(readr)
 library(mapview)
 library(viridis)
+library(kableExtra)
 
 ```
 
@@ -68,7 +69,7 @@ zmt <- zomato$new("1623b413d3a1614e765de7578f83a10b")
 melb <- zmt$search(entity_id = "259", entity_type = "city", category = "Best of Melbourne")
 
 melb_top100 <- melb %>% 
-  select(-offers, -establishment_types, -all_reviews.reviews) %>% 
+  select(-offers, -establishment_types, -all_reviews.reviews, -highlights) %>% 
   mutate(aggregate_rating = as.numeric(aggregate_rating), price_range = as.numeric(price_range), longitude = as.numeric(longitude), latitude = as.numeric(latitude))
 
 ```
@@ -80,7 +81,7 @@ In this report we have used the following packages @tidyverse, @romato, @kableEx
 \section*{Scattered Plot Map}
 This report will look at the distribution of best restaurants (having rating equals to and more than 4.8) in Melbourne using shape maps.
 
-```{r, include=FALSE}
+```{r include=FALSE}
 
 
 # melb_top100 %>% 
@@ -90,13 +91,24 @@ This report will look at the distribution of best restaurants (having rating equ
 #   head(20)
 
 melb_best <- melb_top100 %>% 
-  filter(aggregate_rating >= 4.8) %>% 
-  as.data.frame()
-
-melb_best
+  filter(aggregate_rating >= 4.8)
 ```
 
-```{r maps, fig.cap="Best of Melbourne", out.width= "100%", cache= TRUE, echo = FALSE}
+
+```{r best-restaurant, echo=FALSE}
+melb_11 <- melb_best %>% 
+  select(name, locality, price_for_two = average_cost_for_two, cuisines, rating = aggregate_rating) %>% 
+  filter(rating >= 4.8) %>% 
+  group_by(locality) %>% 
+  kable(caption = "Top Eleven Best Restaurant in Melbourne") %>% 
+  kableExtra::kable_styling(latex_options = c("striped"), font_size = 8)
+
+melb_11
+```
+
+As shown in table \@ref(tab:best-restaurant) above, there are eleven restaurants which have rating equals and more than 4.8 hence can be categorised as best of the best in Melbourne.
+
+```{r price-map, fig.cap="Best of Melbourne", out.width= "100%", cache= TRUE, echo = FALSE}
 
 pal <- colorFactor(palette = "viridis", melb_best$average_cost_for_two)
 
@@ -111,13 +123,13 @@ map_melb <- leaflet(melb_best) %>%
   color = ~pal(melb_best$average_cost_for_two),
   stroke = FALSE, fillOpacity = 0.5
   ) %>% 
-  setView(lng = 144.946457, lat = -37.840935, zoom = 12) #Vic map
+  setView(lng = 144.946457, lat = -37.840935, zoom = 11) #Vic map
 
 
 map_melb
 
 ```
 
-There are ten restaurants which have rating equals and more than 4.8 hence can be categorised as best of the best in Melbourne.
-As we can see from figure \@ref(fig:maps) above, that most of the best restaurans in Melbourne are concentrated in Melbourne CBD area. There is only one restaurant which located outside the CBD, which is **Shira Nui** where located in Glen Waverley area.
+
+As we can see from figure \@ref(fig:price-map) above, that CBD, Fitzroy and North Melbourne both have two restaurans which are included in the top rating list. There is only one restaurant which located outside the CBD, which is **Shira Nui** where located in Glen Waverley area.
 The map also shows whether the restaurant is expensive or not which indicated by larger circle if the average price for two persons is above $50.
