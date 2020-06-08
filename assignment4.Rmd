@@ -137,5 +137,39 @@ price_range %>% rename(`Price Range` = price_range) %>%
 
 From Table \@ref(tab:price-range-table) we can see the range of prices that make up each price category.
 
+### What the breakdown of price ranges of the restaurants? 
 
+```{r price-range-count, fig.cap= "Price Range Counts"}
+melb_top100_filter %>%
+  mutate(price_range = as.factor(price_range)) %>%
+  select(name, price_range)%>%
+  group_by(price_range)%>%
+  count() %>% 
+  ggplot(aes(x = price_range, 
+             y = n,
+             fill = price_range)) +
+  geom_bar(stat = "identity", 
+           colour = "black") +
+  labs(title = "Price Range Counts",
+       x = "Price Range",
+       y = "Count",
+       fill = "Price Range")
+```
+
+From Figure \@ref(fig:price-range-count) We can see price range 3 has the most counts. One thing to note however is price range 3 has a range of $40 compared to 1 and 2 which is $10 and $15, respectively. It may be unfair to conclude there is a higher count of more expensive food as the ranges included in the expensive ranges are larger than the lower ones.
+
+### Comparing prices and aggregate ratings
+
+```{r price-ratings, fig.cap= "Price Ranges to Aggregate Ratings"}
+melb_top100_filter %>% 
+  mutate(price_range = as.factor(price_range)) %>%
+  ggplot(aes(x = price_range, y = aggregate_rating, fill = price_range)) +
+  geom_boxplot() + 
+  labs(title = "Price Ranges to Aggregate Ratings",
+       x = "Price Range",
+       y = "Aggregate Rating",
+       fill = "Price Range")
+```
+
+From Figure \@ref(fig:price-ratings) we can see the median aggregate rating for price range 1 is the highest. In fact, we can see a large amount of lower priced restaurants outranking higher priced restaurants in terms of aggregate ratings.
 
