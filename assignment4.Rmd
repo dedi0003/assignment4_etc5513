@@ -100,3 +100,42 @@ In this section we will be using the Zomato Best of Melbourne to explore whether
 * Comparing prices and aggregate ratings 
 * Determining whether there is a relationship between prices and ratings
 
+### What is considered cheap and expensive food?
+
+```{r price-ranges,fig.cap= "Price Ranges"}
+melb_top100_filter %>%
+  mutate(price_range = as.factor(price_range)) %>%
+  ggplot(aes(reorder(x=price_range, average_cost_for_two), 
+             y = average_cost_for_two, 
+             fill = price_range)) +
+  geom_boxplot() + 
+  labs(title = "Price Ranges",
+       x = "Price Range",
+       y = "Average Cost for Two",
+       fill = "Price Range")
+```
+
+From Figure \@ref(fig:price-ranges) we can see Zomato breaks down price ranges into 4 categories with 4 being the most expensive to 1 being the least expensive.
+
+```{r ,include=FALSE}
+price_range <- melb_top100_filter %>%
+  group_by(price_range) %>%
+  summarise(Maximum = max(average_cost_for_two),
+            Median = median(average_cost_for_two),
+            Minimum = min(average_cost_for_two),
+            Range = max(average_cost_for_two)-min(average_cost_for_two))
+
+```
+
+```{r price-range-table, fig.cap= "Price Ranges"}
+
+price_range %>% rename(`Price Range` = price_range) %>% 
+  kable(caption = "Price Ranges") %>%
+  kable_styling(bootstrap_options = "striped")
+  
+```
+
+From Table \@ref(tab:price-range-table) we can see the range of prices that make up each price category.
+
+
+
