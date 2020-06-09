@@ -79,7 +79,7 @@ melb_top100 <- melb %>%
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @leaflet, @rgdal. 
 
 \section*{Map Plot of The Best Restaurants}
-This report will look at the distribution of best restaurants (having rating equals to and more than 4.8 out of 5) in Melbourne using leaflet map.
+This report will look at the distribution of best restaurants (having rating equals to or more than 4.8 out of 5) in Melbourne using leaflet map.
 
 ```{r include=FALSE}
 
@@ -107,9 +107,9 @@ melb_11 <- melb_best %>%
 melb_11
 ```
 
-As shown in table \@ref(tab:best-restaurant) above, there are ten restaurants which have rating equals and more than 4.8 hence can be categorised as best of the best in Melbourne.
+As shown in table \@ref(tab:best-restaurant) above, there are ten restaurants which rated very high hence can be described as best of the best restaurants in Melbourne.
 
-```{r include=FALSE}
+```{r create-map, include=FALSE}
 
 pal <- colorFactor(palette = "viridis", melb_best$average_cost_for_two)
 
@@ -120,7 +120,7 @@ map_melb <- leaflet(melb_best) %>%
                    lat = melb_best$latitude, 
                    label = melb_best$name,
   labelOptions = labelOptions(textOnly = T, noHide = T, textsize = "14px"),
-  radius = ~ifelse(melb_best$rating_obj.title.text <= 4.8, 10, 15),
+  radius = ~ifelse(melb_best$rating_obj.title.text >= 4.8, 10, 15),
   color = ~pal(melb_best$average_cost_for_two),
   stroke = FALSE, fillOpacity = 0.9
   ) %>% 
@@ -131,6 +131,7 @@ map_melb <- leaflet(melb_best) %>%
   setView(lng = 145.054570, lat = -37.846302, zoom = 12.44)
 
 map_melb
+
 mapshot(map_melb, file = paste0(getwd(), "/map.png"))
 
 ```
@@ -141,3 +142,5 @@ knitr::include_graphics("map.png")
 
 CBD, Fitzroy and North Melbourne each have two restaurans located in their areas. Other restaurants are located in Carlton, Camberwell, Hawtorn, Richmond and Glen Waverley.
 Figure \@ref(fig:maps) above shows the location of these highest-rate restaurants and their average food price. The average price for two persons is differentiated by color.
+
+
