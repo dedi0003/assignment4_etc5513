@@ -47,34 +47,17 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache=FALSE, 
                       messages=FALSE, 
                       warning=FALSE)
-
-```
-
-\clearpage
-
-\section*{Introduction} 
-
-For this assignment we will be looking at scrapping data from Zomato, one of the largest food aggregators in the world. (Zomato, 2020) Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list (Zomato, 2020) to gain insight into some of the most popular restaurants in Melbourne.   
-
-This report will include four sections looking at:
-
-* Is expensive food better than cheap food?
-* 
-* 
-* 
-
-https://www.zomato.com/melbourne/great-food-no-bull  
-https://www.zomato.com/melbourne
-
-In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr. 
-
-\section*{Is expensive food better than cheap food?}
-
-```{r , include=FALSE}
 library(romato)
+library(dplyr)
 library(tidyverse)
-library(knitr)
+library(ggplot2)
+library(leaflet)
+library(rgdal)
+library(readr)
+library(mapview)
+library(viridis)
 library(kableExtra)
+library(knitr)
 ```
 
 ```{r , include=FALSE}
@@ -95,6 +78,7 @@ melb_top100
 ```
 
 ```{r , include=FALSE}
+# viewing "Best of Melbourne" data
 melb_top100_filter <- melb_top100 %>%  
   select(name, cuisines, average_cost_for_two, price_range, establishment,all_reviews_count, locality, aggregate_rating, rating_text, address) %>%
   mutate(establishment = as.character(establishment))
@@ -104,6 +88,24 @@ melb_top100_filter %>%
   arrange(desc(aggregate_rating)) %>% 
   head(20)
 ```
+
+\clearpage
+
+\section*{Introduction} 
+
+For this assignment we will be looking at scrapping data from Zomato, one of the largest foods aggregators in the world @zomato. Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list @zomatomelb to gain insight into some of the most popular restaurants in Melbourne.   
+
+This report will include four sections looking at:
+
+* Is expensive food better than cheap food?
+* Popularity of different cuisine in Melbourne
+* Exploring gluten free food/restaurants in Melbourne
+* Distribution of the top 10 restaurants in Melbourne
+
+In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @rgdal, @readr, @mapview, @viridis. 
+
+
+\section*{Is expensive food better than cheap food?}
 
 In this section we will be using the Zomato Best of Melbourne to explore whether expensive food is "better" than cheap food. To conduct this analysis, we will be looking at:
 
@@ -143,7 +145,8 @@ price_range <- melb_top100_filter %>%
 
 price_range %>% rename(`Price Range` = price_range) %>% 
   kable(caption = "Price Ranges") %>%
-  kable_styling(bootstrap_options = "striped")
+  kable_styling(bootstrap_options = "striped",
+                latex_options = "hold_position")
   
 ```
 
@@ -168,7 +171,7 @@ melb_top100_filter %>%
        fill = "Price Range")
 ```
 
-From Figure \@ref(fig:price-range-count) We can see price range 3 has the most counts. One thing to note however is price range 3 has a range of $40 compared to 1 and 2 which is $10 and $15, respectively. It may be unfair to conclude there is a higher count of more expensive food as the ranges included in the expensive ranges are larger than the lower ones.
+From Figure \@ref(fig:price-range-count) We can see price range 3 has the most counts. One thing to note however is price range 3 has a range of $40 compared to 1 and 2 which is $10 and $15, respectively. It may be unfair to conclude there is a higher count of more expensive food as the ranges included in the expensive ranges are larger than the lower ones. 
 
 ### Comparing prices and aggregate ratings
 
@@ -216,7 +219,8 @@ rating <- melb_top100_filter %>%
 rating %>% 
   rename(`Rating Text` = rating_text) %>%
   kable(caption = "Rating Ranges") %>%
-  kable_styling(bootstrap_options = "striped")
+  kable_styling(bootstrap_options = "striped",
+                latex_options = "hold_position")
   
 ```
 
