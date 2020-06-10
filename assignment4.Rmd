@@ -40,6 +40,7 @@ output:
     number_sections: yes
     citation_package: biblatex
     toc: true
+    
 ---
 
 ```{r setup, include=FALSE}
@@ -58,6 +59,7 @@ library(readr)
 library(mapview)
 library(viridis)
 library(kableExtra)
+library(ggmap)
 
 ```
 
@@ -101,13 +103,13 @@ melb_11 <- melb_best %>%
   select(name, locality, price_for_two = average_cost_for_two, cuisines, rating = aggregate_rating) %>% 
   filter(rating >= 4.8) %>% 
   group_by(locality) %>% 
-  kable(caption = "Top Ten Best Restaurant in Melbourne") %>% 
+  kable(caption = "Top Eleven Best Restaurant in Melbourne") %>% 
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 8)
 
 melb_11
 ```
 
-As shown in table \@ref(tab:best-restaurant) above, there are ten restaurants which rated very high hence can be described as best of the best restaurants in Melbourne.
+As shown in table \@ref(tab:best-restaurant) above, there are eleven restaurants which are rated very high by Zomato users, hence can be described as best of the best restaurants in Melbourne.
 
 ```{r create-map, include=FALSE}
 
@@ -120,7 +122,7 @@ map_melb <- leaflet(melb_best) %>%
                    lat = melb_best$latitude, 
                    label = melb_best$name,
   labelOptions = labelOptions(textOnly = T, noHide = T, textsize = "14px"),
-  radius = ~ifelse(melb_best$rating_obj.title.text >= 4.8, 10, 15),
+  radius = ~ifelse(melb_best$rating_obj.title.text >= 4.8, 6, 15),
   color = ~pal(melb_best$average_cost_for_two),
   stroke = FALSE, fillOpacity = 0.9
   ) %>% 
@@ -136,11 +138,124 @@ mapshot(map_melb, file = paste0(getwd(), "/map.png"))
 
 ```
 
-```{r maps, fig.cap="Best of Melbourne", out.width= "100%", fig.align='center', echo = FALSE}
+```{r maps, fig.cap="Best of Melbourne", out.width= "70%", fig.align='center', echo = FALSE}
 knitr::include_graphics("map.png")
 ```
 
 CBD, Fitzroy and North Melbourne each have two restaurans located in their areas. Other restaurants are located in Carlton, Camberwell, Hawtorn, Richmond and Glen Waverley.
+
 Figure \@ref(fig:maps) above shows the location of these highest-rate restaurants and their average food price. The average price for two persons is differentiated by color.
+
+```{r include=FALSE}
+melb_icon <- melb_best %>% 
+  select(name, locality, cuisines, longitude, latitude, rating = aggregate_rating) %>% 
+  mutate(food_type = str_extract(cuisines, c("Sushi", "Coffee", "BBQ", "Coffee", "Australian", "Sushi", "French", "Sushi", "French", "Coffee"))) %>% 
+  filter(rating >= 4.8) %>% 
+  group_by(locality)
+
+melb_icon
+```
+
+
+```{r include=FALSE}
+sushicon <- icons(
+  iconUrl = "https://i.imgur.com/7KibpoF.png",
+  iconWidth = 25, iconHeight = 30,
+  iconAnchorX = 22, iconAnchorY = 40,
+  )
+
+auscon <- icons(
+  iconUrl = "https://i.imgur.com/CarRew0.png",
+  iconWidth = 25, iconHeight = 30,
+  iconAnchorX = 22, iconAnchorY = 40,
+  )
+
+bbqcon <- icons(
+  iconUrl = "https://i.imgur.com/bkvbKSQ.png",
+  iconWidth = 25, iconHeight = 30,
+  iconAnchorX = 22, iconAnchorY = 40,
+  )
+
+frencon <- icons(
+  iconUrl = "https://i.imgur.com/P7yAbFI.png",
+  iconWidth = 25, iconHeight = 30,
+  iconAnchorX = 22, iconAnchorY = 40,
+  )
+
+cofcon <- icons(
+  iconUrl = "https://i.imgur.com/xFmLqpO.png",
+  iconWidth = 25, iconHeight = 30,
+  iconAnchorX = 22, iconAnchorY = 70,
+  )
+
+
+map_testcon <- leaflet(melb_icon) %>%
+  addTiles() %>% 
+  addProviderTiles(providers$CartoDB, options = providerTileOptions(opacity = 1)) %>% 
+  addMarkers(
+  melb_icon$longitude[1], melb_icon$latitude[1],
+  icon = sushicon,
+  label = ~melb_icon$name[1],
+  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px")) %>%
+  addMarkers(melb_icon$longitude[2], melb_icon$latitude[2],
+  icon = cofcon,
+  label = ~melb_icon$name[2],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE)) %>%
+  addMarkers(
+  melb_icon$longitude[3], melb_icon$latitude[3],
+  icon = bbqcon,
+  label = ~melb_icon$name[3],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  addMarkers(
+  melb_icon$longitude[4], melb_icon$latitude[4],
+  icon = cofcon,
+  label = ~melb_icon$name[4],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  addMarkers(
+  melb_icon$longitude[5], melb_icon$latitude[5],
+  icon = auscon,
+  label = ~melb_icon$name[5],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  addMarkers(
+  melb_icon$longitude[6], melb_icon$latitude[6],
+  icon = sushicon,
+  label = ~melb_icon$name[6],
+  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))%>% 
+addMarkers(
+  melb_icon$longitude[7], melb_icon$latitude[7],
+  icon = frencon,
+  label = ~melb_icon$name[7],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+addMarkers(
+  melb_icon$longitude[8], melb_icon$latitude[8],
+  icon = sushicon,
+  label = ~melb_icon$name[8],
+  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))%>% 
+addMarkers(
+  melb_icon$longitude[9], melb_icon$latitude[9],
+  icon = frencon,
+  label = ~melb_icon$name[9],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  addMarkers(
+  melb_icon$longitude[10], melb_icon$latitude[10],
+  icon = cofcon,
+  label = ~melb_icon$name[10],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  addMarkers(
+  melb_icon$longitude[11], melb_icon$latitude[11],
+  icon = sushicon,
+  label = ~melb_icon$name[11],
+  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))
+
+mapshot(map_testcon, file = paste0(getwd(), "/map_testcon.png"))
+
+```
+
+
+Four out of eleven highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, as indicated by figure \@ref(fig:map-icon).
+
+```{r map-icon, fig.cap="Sushi Restaurants are Dominating Top List", out.width= "70%", fig.align='center', echo = FALSE}
+knitr::include_graphics("map_testcon.png")
+```
 
 
