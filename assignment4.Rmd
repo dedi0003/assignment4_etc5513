@@ -259,6 +259,7 @@ We will explore high end restaurants which offer gluten free food.
 To look for a good restaraunt we will be using aggregate ratings.
 Popular restaraunts will have more then 500 reviews. 
 Being realistic, calculating average cost for one person's meal.
+Most Instagramable place.
 
 
 ```{r , include=FALSE}
@@ -330,4 +331,27 @@ gluten <- ggplot(glute,
 plotly::ggplotly(gluten)
 ```
 
-The graph shows top restaraunts picked offering gluten free food, with an intercept at 500 review count.
+The graph shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. 
+
+```{r}
+glutenf <- ggplot(glute,  
+                 aes(x = all_reviews_count, 
+                     y = photo_count, 
+                     label = name))  +
+  geom_point(
+    color = "Purple"
+    ) +
+   facet_wrap(~aggregate_rating
+              ) + 
+  geom_vline(xintercept = 500, 
+             color = "red"
+             ) + 
+  theme(legend.position = "none")
+
+
+
+
+plotly::ggplotly(glutenf)
+```
+
+ 
