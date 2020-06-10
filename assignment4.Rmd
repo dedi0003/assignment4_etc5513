@@ -293,7 +293,7 @@ glut <- glu %>% select(name,
 
 ## Making an easy to understand table!
 
-```{r}
+```{r good restaraunt gluten free, fig.cap = Top options}
 glute <- glut %>% filter(aggregate_rating > 4.5) %>% 
   select(name, 
                        avg_cost_for_one, 
@@ -306,11 +306,11 @@ arrange(locality)
 glute
 ```
 
-The table shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
+The Table \@ref(tab:good restaraunt gluten free) shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
 
 ## Visualizing findings!
 
-```{r}
+```{r review_price relation, fig.cap= Worth the money!}
 gluten <- ggplot(glute,  
                  aes(x = all_reviews_count, 
                      y = avg_cost_for_one, 
@@ -331,9 +331,9 @@ gluten <- ggplot(glute,
 plotly::ggplotly(gluten)
 ```
 
-The graph shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of __$__ 12.50  per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of __$__ 300.
+The graph Figure \@ref(fig:review_price relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of __$__ 12.50  per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of __$__ 300.
 
-```{r}
+```{r instagrammable plot, fig.cap= Can I instagram it?}
 glutenf <- ggplot(glute,  
                  aes(x = all_reviews_count, 
                      y = photo_count, 
@@ -354,4 +354,4 @@ glutenf <- ggplot(glute,
 plotly::ggplotly(glutenf)
 ```
 
-The graph visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
+The graph Figure \@ref(fig:instagrammable plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
