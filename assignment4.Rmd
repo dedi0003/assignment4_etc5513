@@ -330,3 +330,4 @@ gluten <- ggplot(glute,
 plotly::ggplotly(gluten)
 ```
 
+The graph shows top restaraunts picked offering gluten free food, with an intercept at 500 review count.
