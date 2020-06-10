@@ -253,17 +253,30 @@ From this analysis we find there is no real relationship between restaurant pric
 
 ### Introduction 
 
-In this section we will be looking into restarunts with gluten free food.  
+In this section we will be looking into restaurants with gluten free food.  
+
+We will explore high end restaurants which offer gluten free food.
+To look for a good restaraunt we will be using aggregate ratings.
+Popular restaraunts will have more then 500 reviews. 
+Being realistic, calculating average cost for one person's meal.
+
 
 ```{r , include=FALSE}
 gl <- zomato$new("1623b413d3a1614e765de7578f83a10b") 
 ```
 
+## Checking out the category "Gluten-Free"!
+
+For diet concious people and people with Gluten Allergy.
 
 ```{r}
 glu <- gl$search(entity_id = "259", entity_type = "city", category = "Gluten-Free")
 ```
 
+
+## Selecting appropriate variables and being realistic!
+
+Picking required variables.
 
 ```{r}
 glut <- glu %>% select(name, 
@@ -275,6 +288,9 @@ glut <- glu %>% select(name,
   mutate(
     avg_cost_for_one = average_cost_for_two/2)
 ```
+
+
+## Making an easy to understand table!
 
 ```{r}
 glute <- glut %>% filter(aggregate_rating > 4.5) %>% 
@@ -289,6 +305,9 @@ arrange(locality)
 glute
 ```
 
+The table shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
+
+## Visualizing findings!
 
 ```{r}
 gluten <- ggplot(glute,  
