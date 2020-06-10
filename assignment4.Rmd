@@ -99,7 +99,7 @@ This report will include four sections looking at:
 
 * Is expensive food better than cheap food?
 * Popularity of different cuisine in Melbourne
-* Exploring resta in Melbourne
+* Exploring restaraunts with gluten free food in Melbourne
 * Distribution of the top 10 restaurants in Melbourne
 
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @rgdal, @readr, @mapview, @viridis. 
@@ -277,7 +277,16 @@ glut <- glu %>% select(name,
 ```
 
 ```{r}
-glute <- glut %>% filter(aggregate_rating > 4.5)
+glute <- glut %>% filter(aggregate_rating > 4.5) %>% 
+  select(name, 
+                       avg_cost_for_one, 
+                       all_reviews_count, 
+                       photo_count, 
+                       locality, 
+                       aggregate_rating) %>%
+
+arrange(locality)    
+glute
 ```
 
 
@@ -286,8 +295,15 @@ gluten <- ggplot(glute,
                  aes(x = all_reviews_count, 
                      y = avg_cost_for_one, 
                      label = name))  +
-  geom_point(color = "midnightblue") +
-   facet_wrap(~aggregate_rating) + geom_vline(xintercept = 500, color = "red")+theme(legend.position = "none")
+  geom_point(
+    color = "midnightblue"
+    ) +
+   facet_wrap(~aggregate_rating
+              ) + 
+  geom_vline(xintercept = 500, 
+             color = "red"
+             ) + 
+  theme(legend.position = "none")
 
 
 
