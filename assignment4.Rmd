@@ -258,4 +258,3 @@ Four out of eleven highest-rated restaurants in Melbourne are Japanese-Sushi Res
 knitr::include_graphics("map_testcon.png")
 ```
 
-
