@@ -99,7 +99,7 @@ This report will include four sections looking at:
 
 * Is expensive food better than cheap food?
 * Popularity of different cuisine in Melbourne
-* Exploring gluten free food/restaurants in Melbourne
+* Exploring resta in Melbourne
 * Distribution of the top 10 restaurants in Melbourne
 
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @rgdal, @readr, @mapview, @viridis. 
@@ -247,3 +247,51 @@ From Figure \@ref(fig:rating-count) we can see restaurants in the second and fou
 ### Conclusion
 
 From this analysis we find there is no real relationship between restaurant prices and quality suggesting expensive food is not better than cheap.
+
+
+\section*{Exploring gluten free food/restaurants in Melbourne}
+
+### Introduction 
+
+In this section we will be looking into restarunts with gluten free food.  
+
+```{r , include=FALSE}
+gl <- zomato$new("1623b413d3a1614e765de7578f83a10b") 
+```
+
+
+```{r}
+glu <- gl$search(entity_id = "259", entity_type = "city", category = "Gluten-Free")
+```
+
+
+```{r}
+glut <- glu %>% select(name, 
+                       average_cost_for_two, 
+                       all_reviews_count, 
+                       photo_count, 
+                       locality, 
+                       aggregate_rating)  %>% 
+  mutate(
+    avg_cost_for_one = average_cost_for_two/2)
+```
+
+```{r}
+glute <- glut %>% filter(aggregate_rating > 4.5)
+```
+
+
+```{r}
+gluten <- ggplot(glute,  
+                 aes(x = all_reviews_count, 
+                     y = avg_cost_for_one, 
+                     label = name))  +
+  geom_point(color = "midnightblue") +
+   facet_wrap(~aggregate_rating) + geom_vline(xintercept = 500, color = "red")+theme(legend.position = "none")
+
+
+
+
+plotly::ggplotly(gluten)
+```
+
