@@ -354,4 +354,4 @@ glutenf <- ggplot(glute,
 plotly::ggplotly(glutenf)
 ```
 
- 
+The graph visualises restaraunts with good reviews and potential of each restaraunt on how much instagramable it is. 
