@@ -115,3 +115,4 @@ cuisines_melb %>%
   xlab("Count")
 ```
 
+From Figure \@ref(fig:Cuisine-Type), we can see that Japanese cuisine dominates the Melbourne CBD area, with more than 25 restaurants. Korean and Chinese cuisine are second popular with more than 10 restaurants serving these cuisine in the CBD Area. Also we see that CBD has lots of Cafes which can be related to the nature of the area given that CBD is a business hub with a fast pace environment. Demand for Take aways and quick meals are high. While many people still rely on a quick takeaway on their way to work or on a break from the office, many cafe’s have transformed into restaurants and dining spaces where people can enjoy their hot beverage over a meal or even just to sit down with friends or work colleagues.
