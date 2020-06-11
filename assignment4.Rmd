@@ -147,3 +147,5 @@ japanese_restro <- melb_top100 %>% filter(Types_of_cuisine == "Japanese") %>%
 kable(japanese_restro, "latex", caption = "Top 10 voted Japanese restaurants in Melbourne", booktabs = T) %>%
 kable_styling(latex_options = c("striped", "hold_position"))
 ```
+
+In Table \@ref(tab:top10-Jap) we can look at the top 10 popular japanese restaurants in Melbourne alongwith their location and rating. 'Don-Don' is a very popular japanese restaurant with 3168 votes. 'Shira Nui'is the highest rated restaurant with an aggreated rating of 4.8 out of 5.
