@@ -327,24 +327,6 @@ kable_styling(latex_options = c("striped", "hold_position"))
 
 Table \@ref(tab:rating-ranges) shows range of aggregate ratings that make up each rating levels.
 
-```{r rating-count, fig.cap= "Average Rating Count"}
-melb_top100_filter$rating_text <- factor(melb_top100_filter$rating_text, levels = c("Average", "Good", "Very Good", "Excellent"))
-melb_top100_filter %>%
-  mutate(price_range = as.factor(price_range)) %>%
-  group_by(price_range, rating_text) %>%
-  count(na.rm = TRUE) %>%
-  ggplot(aes(x = rating_text,
-             y = n,
-             fill = price_range)) +
-  geom_bar(position = "dodge", stat = "identity", colour = "black") +
-  labs(title = "Average Rating Count",
-       x = "Average Rating",
-       y = "Count",
-       fill = "Price Range")
-```
-
-From Figure \@ref(fig:rating-count) we can see restaurants in the second and fourth price category all rank in either the very good or excellent category. 3 has the highest count in all categories, however, this may be due to the higher count. We see all price levels have restaurants with high ratings.  
-
 \section*{Map Plot of The Best Restaurants}
 
 This report will look at the distribution of best restaurants (having rating equals to or more than 4.8 out of 5) in Melbourne using leaflet map.
