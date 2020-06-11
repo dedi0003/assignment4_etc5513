@@ -1,5 +1,9 @@
 # Object file
 *.o
+*.pdf
+*.tex
+.RData
+.Rhistory
 
 # Ada Library Information
 *.ali
