@@ -435,7 +435,9 @@ glut <- glu %>% select(name,
 
 ## Making an easy to understand table!
 
+
 ```{r good restaraunt gluten free, fig.cap = "Top options"}
+
 glute <- glut %>% filter(aggregate_rating > 4.5) %>% 
   select(name, 
                        avg_cost_for_one, 
@@ -452,7 +454,9 @@ The Table \@ref(tab:good restaraunt gluten free) shows the name of the restarunt
 
 ## Visualizing findings!
 
+
 ```{r review_price relation, fig.cap= "Worth the money!"}
+
 gluten <- ggplot(glute,  
                  aes(x = all_reviews_count, 
                      y = avg_cost_for_one, 
@@ -473,9 +477,12 @@ gluten <- ggplot(glute,
 plotly::ggplotly(gluten)
 ```
 
+<<<<<<< HEAD
 The graph Figure \@ref(fig:review_price relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
 
+
 ```{r instagrammable plot, fig.cap = "Can I instagram it?"}
+
 glutenf <- ggplot(glute,  
                  aes(x = all_reviews_count, 
                      y = photo_count, 
@@ -496,7 +503,11 @@ glutenf <- ggplot(glute,
 plotly::ggplotly(glutenf)
 ```
 
+
 The graph Figure \@ref(fig:instagrammable plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
 In Table \@ref(tab:top10-Jap) we can look at the top 10 popular japanese restaurants in Melbourne alongwith their location and rating. 'Don-Don' is a very popular japanese restaurant with 3168 votes. 'Shira Nui'is the highest rated restaurant with an aggreated rating of 4.8 out of 5.
+
+
+The graph Figure \@ref(fig:instagrammable plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
