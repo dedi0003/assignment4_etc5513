@@ -63,7 +63,26 @@ library(knitr)
 
 \section*{Popularity of different cuisines in Melbourne} 
 
- 
+```{r assigning API, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
+zmt <- zomato$new("1623b413d3a1614e765de7578f83a10b") #assign API key
+```
+
+# Get the data from romato
+
+```{r read data, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
+
+# pull data for category "Best of Melbourne" using Melbourne ID "259"
+melb <- zmt$search(entity_id = "259", entity_type = "city", category = "Best of Melbourne") 
+
+#search restaurant around CBD
+melb_cbd <- melb %>% 
+  filter(locality == "CBD") %>% 
+  mutate(aggregate_rating = as.numeric(aggregate_rating), price_range = as.numeric(price_range), longitude = as.numeric(longitude), latitude = as.numeric(latitude))
+
+melb_top100 <- melb %>% 
+  mutate(aggregate_rating = as.numeric(aggregate_rating), price_range = as.numeric(price_range), longitude = as.numeric(longitude), latitude = as.numeric(latitude))
+
+```
 
 
 
