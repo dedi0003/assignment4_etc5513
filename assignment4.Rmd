@@ -132,4 +132,4 @@ cuisines_melb_ratings %>%
            geom_bar(stat = "identity", fill= "blue")
 ```
 
-From Figure \@ref(fig:Cuisine-Votes), we can look at the number of votes for different cuisine types. The popularity of a cuisine can largely be explained the number of votes it gets. Japanese cuisine is very popular.
+From Figure \@ref(fig:Cuisine-Votes), we can look at the number of votes for different cuisine types. The popularity of a cuisine can largely be explained the number of votes it gets. Japanese cuisine is very popular. According to @ATR, 'Chefs and restaurant owners agree diners have become more discerning and want healthy, sustainable and honest food'. The growing popularity has made Japanese restaurants a regular feature on the top restaurants list. 
