@@ -99,7 +99,7 @@ This report will include four sections looking at:
 
 * Is expensive food better than cheap food?
 * Popularity of different cuisine in Melbourne
-* Exploring gluten free food/restaurants in Melbourne
+* Exploring restaraunts with gluten free food in Melbourne
 * Distribution of the top 10 restaurants in Melbourne
 
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @rgdal, @readr, @mapview, @viridis. 
@@ -427,3 +427,111 @@ knitr::include_graphics("map_testcon.png")
 ### Conclusion
 
 From this analysis we find there is no real relationship between restaurant prices and quality suggesting expensive food is not better than cheap.
+
+
+\section*{Exploring gluten free food/restaurants in Melbourne}
+
+### Introduction 
+
+In this section we will be looking into restaurants with gluten free food.  
+
+We will explore high end restaurants which offer gluten free food.
+To look for a good restaraunt we will be using aggregate ratings.
+Popular restaraunts will have more then 500 reviews. 
+Being realistic, calculating average cost for one person's meal.
+Most Instagramable place.
+
+
+```{r , include=FALSE}
+gl <- zomato$new("1623b413d3a1614e765de7578f83a10b") 
+```
+
+## Checking out the category "Gluten-Free"!
+
+For diet concious people and people with Gluten Allergy.
+
+```{r}
+glu <- gl$search(entity_id = "259", entity_type = "city", category = "Gluten-Free")
+```
+
+
+## Selecting appropriate variables and being realistic!
+
+Picking required variables.
+
+```{r}
+glut <- glu %>% select(name, 
+                       average_cost_for_two, 
+                       all_reviews_count, 
+                       photo_count, 
+                       locality, 
+                       aggregate_rating)  %>% 
+  mutate(
+    avg_cost_for_one = average_cost_for_two/2)
+```
+
+
+## Making an easy to understand table!
+
+```{r good restaraunt gluten free, fig.cap = Top options}
+glute <- glut %>% filter(aggregate_rating > 4.5) %>% 
+  select(name, 
+                       avg_cost_for_one, 
+                       all_reviews_count, 
+                       photo_count, 
+                       locality, 
+                       aggregate_rating) %>%
+
+arrange(locality)    
+glute
+```
+
+The Table \@ref(tab:good restaraunt gluten free) shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
+
+## Visualizing findings!
+
+```{r review_price relation, fig.cap= Worth the money!}
+gluten <- ggplot(glute,  
+                 aes(x = all_reviews_count, 
+                     y = avg_cost_for_one, 
+                     label = name))  +
+  geom_point(
+    color = "midnightblue"
+    ) +
+   facet_wrap(~aggregate_rating
+              ) + 
+  geom_vline(xintercept = 500, 
+             color = "red"
+             ) + 
+  theme(legend.position = "none")
+
+
+
+
+plotly::ggplotly(gluten)
+```
+
+The graph Figure \@ref(fig:review_price relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of __$__ 12.50  per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of __$__ 300.
+
+```{r instagrammable plot, fig.cap= Can I instagram it?}
+glutenf <- ggplot(glute,  
+                 aes(x = all_reviews_count, 
+                     y = photo_count, 
+                     label = name))  +
+  geom_point(
+    color = "Purple"
+    ) +
+   facet_wrap(~aggregate_rating
+              ) + 
+  geom_vline(xintercept = 500, 
+             color = "red"
+             ) + 
+  theme(legend.position = "none")
+
+
+
+
+plotly::ggplotly(glutenf)
+```
+
+The graph Figure \@ref(fig:instagrammable plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
