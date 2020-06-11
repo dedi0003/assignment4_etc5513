@@ -63,11 +63,12 @@ library(knitr)
 
 \section*{Popularity of different cuisines in Melbourne} 
 
+In this section we will look at the popularity of different cuisines in Melbourne. The analysis is based on the total votes restaurants serving these cuisine have.
+
 ```{r assigning API, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
 zmt <- zomato$new("1623b413d3a1614e765de7578f83a10b") #assign API key
 ```
 
-# Get the data from romato
 
 ```{r read data, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
 
@@ -115,7 +116,7 @@ cuisines_melb %>%
   xlab("Count")
 ```
 
-From Figure \@ref(fig:Cuisine-Type), we can see that Japanese cuisine dominates the Melbourne CBD area, with more than 25 restaurants. Korean and Chinese cuisine are second popular with more than 10 restaurants serving these cuisine in the CBD Area. Also we see that CBD has lots of Cafes which can be related to the nature of the area given that CBD is a business hub with a fast pace environment. Demand for Take aways and quick meals are high. While many people still rely on a quick takeaway on their way to work or on a break from the office, many cafe’s have transformed into restaurants and dining spaces where people can enjoy their hot beverage over a meal or even just to sit down with friends or work colleagues.
+From Figure \@ref(fig:Cuisine-Type), we can see that Japanese cuisine dominates the Melbourne CBD area, with more than 25 restaurants. Korean and Chinese cuisine are second popular with more than 10 restaurants serving these cuisine in the CBD Area. Also we see that CBD has lots of Cafes which can be related to the nature of the area given that CBD is a business hub with a fast pace environment. According to @Coffee while many people still rely on a quick takeaway on their way to work or on a break from the office, many cafe’s have transformed into restaurants and dining spaces where people can enjoy their hot beverage over a meal or even just to sit down with friends or work colleagues.
 
 ```{r Cuisine-Votes, echo = FALSE, fig.cap = "Number of Votes for different Cuisines in Melbourne"}
 #glimpse(melb_top100)
