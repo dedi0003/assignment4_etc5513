@@ -143,4 +143,7 @@ japanese_restro <- melb_top100 %>% filter(Types_of_cuisine == "Japanese") %>%
   head(10)
 ```
 
-
+```{r top10-Jap, echo=FALSE}
+kable(japanese_restro, "latex", caption = "Top 10 voted Japanese restaurants in Melbourne", booktabs = T) %>%
+kable_styling(latex_options = c("striped", "hold_position"))
+```
