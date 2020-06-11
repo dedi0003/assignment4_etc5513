@@ -473,7 +473,7 @@ glut <- glu %>% select(name,
 
 ## Making an easy to understand table!
 
-```{r good restaraunt gluten free, fig.cap = Top options}
+```{r good restaraunt gluten free, fig.cap = "Top options"}
 glute <- glut %>% filter(aggregate_rating > 4.5) %>% 
   select(name, 
                        avg_cost_for_one, 
@@ -490,7 +490,7 @@ The Table \@ref(tab:good restaraunt gluten free) shows the name of the restarunt
 
 ## Visualizing findings!
 
-```{r review_price relation, fig.cap= Worth the money!}
+```{r review_price relation, fig.cap= "Worth the money!"}
 gluten <- ggplot(glute,  
                  aes(x = all_reviews_count, 
                      y = avg_cost_for_one, 
@@ -511,9 +511,9 @@ gluten <- ggplot(glute,
 plotly::ggplotly(gluten)
 ```
 
-The graph Figure \@ref(fig:review_price relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of __$__ 12.50  per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of __$__ 300.
+The graph Figure \@ref(fig:review_price relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
 
-```{r instagrammable plot, fig.cap= Can I instagram it?}
+```{r instagrammable plot, fig.cap = "Can I instagram it?"}
 glutenf <- ggplot(glute,  
                  aes(x = all_reviews_count, 
                      y = photo_count, 
