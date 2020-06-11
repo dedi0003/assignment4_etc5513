@@ -102,5 +102,16 @@ for (i in seq_along(melb_top100$Types_of_cuisine)) {
 melb_top100
 ```
 
+```{r Cuisine-Type, echo = FALSE, fig.cap = "Number of restaurants for different Cuisines in CBD"}
+cuisines_melb <- melb_top100 %>%
+  select(Types_of_cuisine)%>%
+  group_by(Types_of_cuisine)%>%
+  count() %>%
+  arrange(desc(n))
 
+cuisines_melb %>%
+  ggplot(aes(x = n, y = Types_of_cuisine))+
+           geom_bar(stat = "identity")+
+  xlab("Count")
+```
 
