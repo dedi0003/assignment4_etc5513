@@ -75,15 +75,32 @@ zmt <- zomato$new("1623b413d3a1614e765de7578f83a10b") #assign API key
 melb <- zmt$search(entity_id = "259", entity_type = "city", category = "Best of Melbourne") 
 
 #search restaurant around CBD
-melb_cbd <- melb %>% 
-  filter(locality == "CBD") %>% 
-  mutate(aggregate_rating = as.numeric(aggregate_rating), price_range = as.numeric(price_range), longitude = as.numeric(longitude), latitude = as.numeric(latitude))
-
 melb_top100 <- melb %>% 
   mutate(aggregate_rating = as.numeric(aggregate_rating), price_range = as.numeric(price_range), longitude = as.numeric(longitude), latitude = as.numeric(latitude))
 
 ```
 
+```{r wrangling, echo=FALSE, include=FALSE}
+melb_top100 <- melb_top100 %>% mutate(Types_of_cuisine=melb_top100$cuisines)
+
+temp_1 <- as.data.frame(melb_top100$cuisines[grep("Japanese", melb_top100$cuisines)])
+temp_2 <- as.data.frame(melb_top100$cuisines[grep("Chinese", melb_top100$cuisines)])
+temp_3 <- as.data.frame(melb_top100$cuisines[grep("Korean", melb_top100$cuisines)])
+temp_4 <- as.data.frame(melb_top100$cuisines[grep("Italian", melb_top100$cuisines)])
+temp_5 <- as.data.frame(melb_top100$cuisines[grep("Australian", melb_top100$cuisines)])
+temp_6 <- as.data.frame(melb_top100$cuisines[grep("Coffee", melb_top100$cuisines)])
+
+for (i in seq_along(melb_top100$Types_of_cuisine)) {
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_1$`melb_top100$cuisines[grep("Japanese", melb_top100$cuisines)]`] <- "Japanese"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_2$`melb_top100$cuisines[grep("Chinese", melb_top100$cuisines)]`] <- "Chinese"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_3$`melb_top100$cuisines[grep("Korean", melb_top100$cuisines)]`] <- "Korean"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_4$`melb_top100$cuisines[grep("Italian", melb_top100$cuisines)]`] <- "Italian"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_5$`melb_top100$cuisines[grep("Australian", melb_top100$cuisines)]`] <- "Australian"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_6$`melb_top100$cuisines[grep("Coffee", melb_top100$cuisines)]`] <- "Cafes"
+}
+
+melb_top100
+```
 
 
 
