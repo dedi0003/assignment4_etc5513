@@ -66,7 +66,7 @@ library(knitr)
 
 In this section we will look at the popularity of different cuisines in Melbourne. The analysis is based on the total votes restaurants serving these cuisine have.
 
-```{r wrangling}
+```{r}
 # assign API key
 zmt <- zomato$new("1623b413d3a1614e765de7578f83a10b") 
 ```
