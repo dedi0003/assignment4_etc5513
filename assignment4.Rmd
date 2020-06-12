@@ -101,7 +101,6 @@ melb_top100_filter %>%
 
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @leaflet. 
 
-<<<<<<< HEAD
 For this assignment we will be looking at scrapping data from Zomato, one of the largest foods aggregators in the world @zomato. Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list @zomatomelb to gain insight into some of the most popular restaurants in Melbourne.   
 
 This report will include four sections looking at:
@@ -343,7 +342,7 @@ In Table \@ref(tab:top10-Jap) we can look at the top ten popular Japanese restau
 
 
 \section*{Finding The Very Best Restaurants of Melbourne}
-The last section of this report is covering composition and distribution of the very best restaurants in Melbourne-Victoria. In order to find the very best restaurant, this report will filter out 100 restaurants which are listed in **"Best of Melbourne"** category on Zomato's website. The very best restaurants are described as one which has rating equals to or more than 4.8 out of 5.
+This section is covering composition and distribution of the very best restaurants in Melbourne-Victoria. In order to find the very best restaurant, this report will filter out 100 restaurants which are listed in **"Best of Melbourne"** category on Zomato's website. The very best restaurants are described as one which has rating equals to or more than 4.8 out of 5.
 After filtered out the dataset, several highest-rated restaurants fill the top list as shown in table \@ref(tab:best-restaurant).
 
 ```{r include=FALSE}
@@ -622,7 +621,6 @@ gluten <- ggplot(glute,
 plotly::ggplotly(gluten)
 ```
 
-<<<<<<< HEAD
 The graph Figure \@ref(fig:review_price relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
 
 
