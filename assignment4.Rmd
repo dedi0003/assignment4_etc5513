@@ -106,8 +106,8 @@ For this assignment we will be looking at scrapping data from Zomato, one of the
 This report will include four sections looking at:
 
 * Is expensive food better than cheap food?
-* Popularity of different cuisine in Melbourne
 * Finding the very best restaurants in Melbourne
+* Popularity of different cuisine in Melbourne
 * Exploring restaurants with gluten free food in Melbourne
 
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @readr, @mapview, @viridis, @plotly. 
@@ -256,93 +256,6 @@ melb_top100_filter %>%
 From Figure \@ref(fig:rating-count) we can see restaurants in the second and fourth price category all rank in either the very good or excellent category. 3 has the highest count in all categories, however, this may be due to the higher count. We see all price levels have restaurants with high ratings. 
 
 \clearpage
-
-  
-# Popularity of different cuisines in Melbourne
-
-In this section we will look at the popularity of different cuisines in Melbourne. The analysis is based on the total votes restaurants serving these cuisine have.
-
-```{r wrangling, echo=FALSE, include=FALSE}
-melb_top100 <- melb_top100 %>% mutate(Types_of_cuisine=melb_top100$cuisines)
-
-temp_1 <- as.data.frame(melb_top100$cuisines[grep("Japanese", melb_top100$cuisines)])
-temp_2 <- as.data.frame(melb_top100$cuisines[grep("Chinese", melb_top100$cuisines)])
-temp_3 <- as.data.frame(melb_top100$cuisines[grep("Korean", melb_top100$cuisines)])
-temp_4 <- as.data.frame(melb_top100$cuisines[grep("Italian", melb_top100$cuisines)])
-temp_5 <- as.data.frame(melb_top100$cuisines[grep("Australian", melb_top100$cuisines)])
-temp_6 <- as.data.frame(melb_top100$cuisines[grep("Coffee", melb_top100$cuisines)])
-
-for (i in seq_along(melb_top100$Types_of_cuisine)) {
-    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_1$`melb_top100$cuisines[grep("Japanese", melb_top100$cuisines)]`] <- "Japanese"
-    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_2$`melb_top100$cuisines[grep("Chinese", melb_top100$cuisines)]`] <- "Chinese"
-    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_3$`melb_top100$cuisines[grep("Korean", melb_top100$cuisines)]`] <- "Korean"
-    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_4$`melb_top100$cuisines[grep("Italian", melb_top100$cuisines)]`] <- "Italian"
-    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_5$`melb_top100$cuisines[grep("Australian", melb_top100$cuisines)]`] <- "Australian"
-    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_6$`melb_top100$cuisines[grep("Coffee", melb_top100$cuisines)]`] <- "Cafes"
-}
-
-melb_top100
-```
-
-```{r Cuisine-Type, echo = FALSE, fig.cap = "Number of restaurants for different Cuisines in Melbourne"}
-cuisines_melb <- melb_top100 %>%
-  select(Types_of_cuisine)%>%
-  group_by(Types_of_cuisine)%>%
-  count() %>%
-  arrange(desc(n))
-
-cuisines_melb %>%
-  ggplot(aes(x = n, y = Types_of_cuisine))+
-           geom_bar(stat = "identity")+
-  xlab("Count") +
-  ylab("Types of Cuisine")
-```
-
-From Figure \@ref(fig:Cuisine-Type), we can see that Japanese cuisine dominates the Melbourne CBD area, with more than 25 restaurants. Korean and Chinese cuisine are second popular with more than 10 restaurants serving these cuisine in the CBD Area. Also we see that CBD has lots of Cafes which can be related to the nature of the area given that CBD is a business hub with a fast pace environment. According to @Coffee while many people still rely on a quick takeaway on their way to work or on a break from the office, many cafe’s have transformed into restaurants and dining spaces where people can enjoy their hot beverage over a meal or even just to sit down with friends or work colleagues.
-
-```{r ,include= FALSE}
-#glimpse(melb_top100)
-melb_top100$votes <- as.double(melb_top100$votes)
-
-cuisines_melb_ratings <- melb_top100 %>%
-  select(Types_of_cuisine, votes)%>%
-  group_by(Types_of_cuisine)%>%
-  summarise(Total_Votes = sum(votes)) %>%
-  arrange(desc(Total_Votes))
-
-```
-
-
-
-```{r Cuisine-Votes, echo = FALSE, fig.cap = "Number of Votes for different Cuisines in Melbourne"}
-cuisines_melb_ratings %>%
-  ggplot(aes(x = Total_Votes, y = Types_of_cuisine))+
-           geom_bar(stat = "identity", fill= "blue") +
-  labs(x = "Total Votes",
-      y = "Types of Cuisine")
-```
-
-From Figure \@ref(fig:Cuisine-Votes), we can look at the number of votes for different cuisine types. The popularity of a cuisine can largely be explained the number of votes it gets. Japanese cuisine is very popular. According to @ATR, 'Chefs and restaurant owners agree diners have become more discerning and want healthy, sustainable and honest food'. The growing popularity has made Japanese restaurants a regular feature on the top restaurants list. 
-
-
-```{r , include = FALSE, echo = FALSE}
-japanese_restro <- melb_top100 %>% filter(Types_of_cuisine == "Japanese") %>%
-  select(name,votes,locality,aggregate_rating)%>%
-  group_by(name,locality,aggregate_rating)%>%
-  summarise(Total_Votes = sum(votes)) %>%
-  arrange(desc(Total_Votes)) %>%
-  head(10)
-```
-
-```{r top10-Jap, echo=FALSE}
-kable(japanese_restro, "latex", caption = "Top 10 voted Japanese restaurants in Melbourne", booktabs = T) %>%
-kable_styling(latex_options = c("striped", "hold_position"))
-```
-
-In Table \@ref(tab:top10-Jap) we can look at the top ten popular Japanese restaurants with votes count and the locality they are in.
-
-\clearpage
-
 
  
 # Finding The Very Best Restaurants of Melbourne
@@ -526,6 +439,91 @@ Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sus
 This fact support an opinion that "japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013" @sushi.
 
 \clearpage
+  
+# Popularity of different cuisines in Melbourne
+
+In this section we will look at the popularity of different cuisines in Melbourne. The analysis is based on the total votes restaurants serving these cuisine have.
+
+```{r wrangling, echo=FALSE, include=FALSE}
+melb_top100 <- melb_top100 %>% mutate(Types_of_cuisine=melb_top100$cuisines)
+
+temp_1 <- as.data.frame(melb_top100$cuisines[grep("Japanese", melb_top100$cuisines)])
+temp_2 <- as.data.frame(melb_top100$cuisines[grep("Chinese", melb_top100$cuisines)])
+temp_3 <- as.data.frame(melb_top100$cuisines[grep("Korean", melb_top100$cuisines)])
+temp_4 <- as.data.frame(melb_top100$cuisines[grep("Italian", melb_top100$cuisines)])
+temp_5 <- as.data.frame(melb_top100$cuisines[grep("Australian", melb_top100$cuisines)])
+temp_6 <- as.data.frame(melb_top100$cuisines[grep("Coffee", melb_top100$cuisines)])
+
+for (i in seq_along(melb_top100$Types_of_cuisine)) {
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_1$`melb_top100$cuisines[grep("Japanese", melb_top100$cuisines)]`] <- "Japanese"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_2$`melb_top100$cuisines[grep("Chinese", melb_top100$cuisines)]`] <- "Chinese"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_3$`melb_top100$cuisines[grep("Korean", melb_top100$cuisines)]`] <- "Korean"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_4$`melb_top100$cuisines[grep("Italian", melb_top100$cuisines)]`] <- "Italian"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_5$`melb_top100$cuisines[grep("Australian", melb_top100$cuisines)]`] <- "Australian"
+    melb_top100$Types_of_cuisine[[i]][melb_top100$Types_of_cuisine[[i]] %in% temp_6$`melb_top100$cuisines[grep("Coffee", melb_top100$cuisines)]`] <- "Cafes"
+}
+
+melb_top100
+```
+
+```{r Cuisine-Type, echo = FALSE, fig.cap = "Number of restaurants for different Cuisines in Melbourne"}
+cuisines_melb <- melb_top100 %>%
+  select(Types_of_cuisine)%>%
+  group_by(Types_of_cuisine)%>%
+  count() %>%
+  arrange(desc(n))
+
+cuisines_melb %>%
+  ggplot(aes(x = n, y = Types_of_cuisine))+
+           geom_bar(stat = "identity")+
+  xlab("Count") +
+  ylab("Types of Cuisine")
+```
+
+From Figure \@ref(fig:Cuisine-Type), we can see that Japanese cuisine dominates the Melbourne CBD area, with more than 25 restaurants. Korean and Chinese cuisine are second popular with more than 10 restaurants serving these cuisine in the CBD Area. Also we see that CBD has lots of Cafes which can be related to the nature of the area given that CBD is a business hub with a fast pace environment. According to @Coffee while many people still rely on a quick takeaway on their way to work or on a break from the office, many cafe’s have transformed into restaurants and dining spaces where people can enjoy their hot beverage over a meal or even just to sit down with friends or work colleagues.
+
+```{r ,include= FALSE}
+#glimpse(melb_top100)
+melb_top100$votes <- as.double(melb_top100$votes)
+
+cuisines_melb_ratings <- melb_top100 %>%
+  select(Types_of_cuisine, votes)%>%
+  group_by(Types_of_cuisine)%>%
+  summarise(Total_Votes = sum(votes)) %>%
+  arrange(desc(Total_Votes))
+
+```
+
+
+```{r Cuisine-Votes, echo = FALSE, fig.cap = "Number of Votes for different Cuisines in Melbourne"}
+cuisines_melb_ratings %>%
+  ggplot(aes(x = Total_Votes, y = Types_of_cuisine))+
+           geom_bar(stat = "identity", fill= "blue") +
+  labs(x = "Total Votes",
+      y = "Types of Cuisine")
+```
+
+From Figure \@ref(fig:Cuisine-Votes), we can look at the number of votes for different cuisine types. The popularity of a cuisine can largely be explained the number of votes it gets. Japanese cuisine is very popular. According to @ATR, 'Chefs and restaurant owners agree diners have become more discerning and want healthy, sustainable and honest food'. The growing popularity has made Japanese restaurants a regular feature on the top restaurants list. 
+
+
+```{r , include = FALSE, echo = FALSE}
+japanese_restro <- melb_top100 %>% filter(Types_of_cuisine == "Japanese") %>%
+  select(name,votes,locality,aggregate_rating)%>%
+  group_by(name,locality,aggregate_rating)%>%
+  summarise(Total_Votes = sum(votes)) %>%
+  arrange(desc(Total_Votes)) %>%
+  head(10)
+```
+
+```{r top10-Jap, echo=FALSE}
+kable(japanese_restro, "latex", caption = "Top 10 voted Japanese restaurants in Melbourne", booktabs = T) %>%
+kable_styling(latex_options = c("striped", "hold_position"))
+```
+
+In Table \@ref(tab:top10-Jap) we can look at the top ten popular Japanese restaurants with votes count and the locality they are in.
+
+\clearpage
+
 
 # Exploring gluten free food/restaurants in Melbourne
 
@@ -642,12 +640,8 @@ The graph Figure \@ref(fig:instagrammable-plot) visualizes restaurants with good
 
 In Table \@ref(tab:top10-Jap) we can look at the top 10 popular Japanese restaurants in Melbourne along with their location and rating. 'Don-Don' is a very popular Japanese restaurant with 3168 votes. 'Shira Nui' is the highest rated restaurant with an aggregated rating of 4.8 out of 5.
 
-<<<<<<< HEAD
-The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
-=======
-
 The graph Figure \@ref(fig:instagrammable-plot) visualizes restaurants with good reviews and potential of each restaurant on how much instagrammable it is. Lune Crissantete has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
->>>>>>> 3637972020c3b19318c66fbc539f04978d6309ab
+
 
 \clearpage 
 
