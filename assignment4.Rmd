@@ -429,7 +429,7 @@ melb_icon %>%
 ```
 
 
-```{r include=FALSE, cache=TRUE}
+```{r map-icon, fig.cap="Japanese Restaurants are Dominating Top List"}
 sushicon <- icons(
   iconUrl = "https://i.imgur.com/7KibpoF.png",
   iconWidth = 25, iconHeight = 30,
@@ -459,7 +459,6 @@ cofcon <- icons(
   iconWidth = 25, iconHeight = 30,
   iconAnchorX = 22, iconAnchorY = 70,
   )
-
 
 map_testcon <- leaflet(melb_icon) %>%
   addTiles() %>% 
@@ -524,15 +523,10 @@ addMarkers(
 
 map_testcon
 
-mapshot(map_testcon, file = paste0(getwd(), "/map_testcon.jpeg"))
-
 ```
 
 Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and Australian food restaurants as indicated by figure \@ref(fig:map-icon). This fact support an opinion that "Japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013" @sushi.
 
-```{r map-icon, fig.cap="Sushi Restaurants are Dominating Top List", out.width= "70%", fig.align='center', echo = FALSE}
-knitr::include_graphics("map_testcon.jpeg")
-```
 
 
 \clearpage
