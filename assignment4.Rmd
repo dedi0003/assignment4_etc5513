@@ -40,6 +40,7 @@ output:
     number_sections: yes
     citation_package: biblatex
     toc: true
+  
     
 ---
 
@@ -47,7 +48,8 @@ output:
 knitr::opts_chunk$set(echo = FALSE, 
                       cache=FALSE, 
                       messages=FALSE, 
-                      warning=FALSE)
+                      warning=FALSE,
+                      fig.pos="H")
 
 library(romato)
 library(dplyr)
@@ -59,9 +61,8 @@ library(mapview)
 library(viridis)
 library(kableExtra)
 library(knitr)
+library(plotly)
 ```
-
-
 
 
 ```{r}
@@ -72,7 +73,6 @@ zmt <- zomato$new("1623b413d3a1614e765de7578f83a10b")
 
 ```{r read data, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
 
-
 # pull data for category "Best of Melbourne" using Melbourne ID "259"
 melb <- zmt$search(entity_id = "259", entity_type = "city", category = "Best of Melbourne")
 
@@ -80,6 +80,7 @@ melb <- zmt$search(entity_id = "259", entity_type = "city", category = "Best of 
 melb_top100 <- melb %>% 
   select(-offers, -establishment_types, -all_reviews.reviews, -highlights) %>% 
   mutate(aggregate_rating = as.numeric(aggregate_rating), price_range = as.numeric(price_range), longitude = as.numeric(longitude), latitude = as.numeric(latitude))
+
 ```
 
 
@@ -99,7 +100,6 @@ melb_top100_filter %>%
 
 \section*{Introduction} 
 
-In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @leaflet. 
 
 For this assignment we will be looking at scrapping data from Zomato, one of the largest foods aggregators in the world @zomato. Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list @zomatomelb to gain insight into some of the most popular restaurants in Melbourne.   
 
@@ -107,10 +107,10 @@ This report will include four sections looking at:
 
 * Is expensive food better than cheap food?
 * Popularity of different cuisine in Melbourne
+* Finding the very best restaurants in Melbourne
 * Exploring restaraunts with gluten free food in Melbourne
-* Distribution of the top 10 restaurants in Melbourne
 
-In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @rgdal, @readr, @mapview, @viridis. 
+In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @readr, @mapview, @viridis, @plotly. 
 
 
 \section*{Is expensive food better than cheap food?}
@@ -163,7 +163,7 @@ From Table \@ref(tab:price-range-table) we can see the range of prices that make
 
 ### What the breakdown of price ranges of the restaurants? 
 
-```{r price-range-count, fig.cap= "Price Range Counts"}
+```{r price-range-count, fig.cap= "Price Range Counts", fig.pos="h", fig.height=4, fig.width=5}
 melb_top100_filter %>%
   mutate(price_range = as.factor(price_range)) %>%
   select(name, price_range)%>%
@@ -182,11 +182,10 @@ melb_top100_filter %>%
 
 From Figure \@ref(fig:price-range-count) We can see price range 3 has the most counts. One thing to note however is price range 3 has a range of $40 compared to 1 and 2 which is $10 and $15, respectively. It may be unfair to conclude there is a higher count of more expensive food as the ranges included in the expensive ranges are larger than the lower ones. 
 
-\clearpage
 
 ### Comparing prices and aggregate ratings
 
-```{r price-ratings, fig.cap= "Price Ranges to Aggregate Ratings"}
+```{r price-ratings, fig.cap= "Price Ranges to Aggregate Ratings", echo = FALSE}
 melb_top100_filter %>% 
   mutate(price_range = as.factor(price_range)) %>%
   ggplot(aes(x = price_range, y = aggregate_rating, fill = price_range)) +
@@ -201,7 +200,8 @@ From Figure \@ref(fig:price-ratings) we can see the median aggregate rating for 
 
 ### Is there a relationship between prices and ratings 
 
-```{r cost-rating-relationship, fig.cap= "Average Cost for Two to Aggregate Rating Relationship"}
+```{r cost-rating-relationship, fig.cap= "Average Cost for Two to Aggregate Rating Relationship", echo = FALSE}
+
 melb_top100_filter %>%
   select(name, average_cost_for_two,aggregate_rating) %>%
   mutate(average_cost_for_two = as.numeric(average_cost_for_two)) %>%
@@ -217,7 +217,7 @@ melb_top100_filter %>%
 From Figure \@ref(fig:cost-rating-relationship) we can see there is not a strong relationship between the average cost for two and the aggregate ratings suggesting there is no relationship between price and food quality. We see a slight upwards trend at the higher price levels. However, this is only based on 5 restaurants with drastically higher prices. We see most of the restaurants fall below the $200 price point. This might even suggest lower priced restaurants out rank the higher priced restaurants due to the higher count.
 
 
-```{r , include = FALSE}
+```{r include = FALSE}
 rating <- melb_top100_filter %>%
   group_by(rating_text) %>%
   summarise(Maximum = max(aggregate_rating),
@@ -319,7 +319,6 @@ cuisines_melb_ratings %>%
 ```
 
 From Figure \@ref(fig:Cuisine-Votes), we can look at the number of votes for different cuisine types. The popularity of a cuisine can largely be explained the number of votes it gets. Japanese cuisine is very popular. According to @ATR, 'Chefs and restaurant owners agree diners have become more discerning and want healthy, sustainable and honest food'. The growing popularity has made Japanese restaurants a regular feature on the top restaurants list. 
-
 
 
 ```{r , include = FALSE, echo = FALSE}
@@ -530,14 +529,7 @@ knitr::include_graphics("map_testcon.png")
 ```
 
 
-### Conclusion
-
-From this analysis we find there is no real relationship between restaurant prices and quality suggesting expensive food is not better than cheap.
-
-
 \section*{Exploring gluten free food/restaurants in Melbourne}
-
-### Introduction 
 
 In this section we will be looking into restaurants with gluten free food.  
 
@@ -548,16 +540,12 @@ Being realistic, calculating average cost for one person's meal.
 Most Instagramable place.
 
 
-```{r , include=FALSE}
-gl <- zomato$new("1623b413d3a1614e765de7578f83a10b") 
-```
-
 ## Checking out the category "Gluten-Free"!
 
 For diet concious people and people with Gluten Allergy.
 
 ```{r}
-glu <- gl$search(entity_id = "259", entity_type = "city", category = "Gluten-Free")
+glu <- zmt$search(entity_id = "259", entity_type = "city", category = "Gluten-Free")
 ```
 
 
@@ -580,7 +568,7 @@ glut <- glu %>% select(name,
 ## Making an easy to understand table!
 
 
-```{r good restaraunt gluten free, fig.cap = "Top options"}
+```{r good-restaraunt-gluten-free, fig.cap = "Top Options", echo = FALSE}
 
 glute <- glut %>% filter(aggregate_rating > 4.5) %>% 
   select(name, 
@@ -589,17 +577,16 @@ glute <- glut %>% filter(aggregate_rating > 4.5) %>%
                        photo_count, 
                        locality, 
                        aggregate_rating) %>%
-
 arrange(locality)    
 glute
 ```
 
-The Table \@ref(tab:good restaraunt gluten free) shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
+The Table \@ref(fig:good-restaraunt-gluten-free) shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
 
 ## Visualizing findings!
 
 
-```{r review_price relation, fig.cap= "Worth the money!"}
+```{r review-price-relation, fig.cap= "Worth the money!"}
 
 gluten <- ggplot(glute,  
                  aes(x = all_reviews_count, 
@@ -621,10 +608,10 @@ gluten <- ggplot(glute,
 plotly::ggplotly(gluten)
 ```
 
-The graph Figure \@ref(fig:review_price relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
+The graph Figure \@ref(fig:review-price-relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
 
 
-```{r instagrammable plot, fig.cap = "Can I instagram it?"}
+```{r instagrammable-plot, fig.cap = "Can I instagram it?"}
 
 glutenf <- ggplot(glute,  
                  aes(x = all_reviews_count, 
@@ -646,12 +633,16 @@ glutenf <- ggplot(glute,
 plotly::ggplotly(glutenf)
 ```
 
-
-The graph Figure \@ref(fig:instagrammable plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
+The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
 In Table \@ref(tab:top10-Jap) we can look at the top 10 popular japanese restaurants in Melbourne alongwith their location and rating. 'Don-Don' is a very popular japanese restaurant with 3168 votes. 'Shira Nui'is the highest rated restaurant with an aggreated rating of 4.8 out of 5.
 
 
-The graph Figure \@ref(fig:instagrammable plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
+The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
-\clearpage
+
+### Conclusion
+
+From this analysis we find there is no real relationship between restaurant prices and quality suggesting expensive food is not better than cheap. Most of the very best restaurants in Melbourne is located near CBD.
+
+
