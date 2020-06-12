@@ -108,7 +108,7 @@ This report will include four sections looking at:
 * Is expensive food better than cheap food?
 * Popularity of different cuisine in Melbourne
 * Finding the very best restaurants in Melbourne
-* Exploring restaraunts with gluten free food in Melbourne
+* Exploring restaurants with gluten free food in Melbourne
 
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @readr, @mapview, @viridis, @plotly. 
 
@@ -412,7 +412,7 @@ knitr::include_graphics("map.png")
 
 Regarding the average price and location of the restaurants, figure \@ref(fig:maps) shows the map plot of these highest-rated restaurants with their attribute of average food price for two person. The average price for two persons is differentiated by color, while larger circle indicates higher rating (4.9).
 
-It is seen from the figure \@ref(fig:maps) that three restaurants are located in CBD, which is not surprising given the nature of CBD as the epicentre of Melbourne. Other restaurants are relatively still located close to CBD like Fitzroy, North Melbourne, Carlton and Hawthorn where eight restaurants base in. One outlier from the list is Shira Nui restaurant, where its location is quite far away from other restaurants in the group. This japanese-sushi restaurant is located in Glen Waverley suburb which is about one and half hour driving from the CBD.
+It is seen from the figure \@ref(fig:maps) that three restaurants are located in CBD, which is not surprising given the nature of CBD as the epicenter of Melbourne. Other restaurants are relatively still located close to CBD like Fitzroy, North Melbourne, Carlton and Hawthorn where eight restaurants base in. One outlier from the list is Shira Nui restaurant, where its location is quite far away from other restaurants in the group. This Japanese-sushi restaurant is located in Glen Waverley suburb which is about one and half hour driving from the CBD.
 
 
 ```{r include=FALSE}
@@ -429,6 +429,7 @@ melb_icon
 
 
 ```{r include=FALSE}
+
 sushicon <- icons(
   iconUrl = "https://i.imgur.com/7KibpoF.png",
   iconWidth = 25, iconHeight = 30,
@@ -459,8 +460,7 @@ cofcon <- icons(
   iconAnchorX = 22, iconAnchorY = 70,
   )
 
-
-map_testcon <- leaflet(melb_icon) %>%
+mapico <- leaflet(melb_icon) %>%
   addTiles() %>% 
   addProviderTiles(providers$CartoDB, options = providerTileOptions(opacity = 1)) %>% 
 addMarkers(
@@ -468,66 +468,55 @@ addMarkers(
   icon = bbqcon) %>%
 addMarkers(melb_icon$longitude[2], melb_icon$latitude[2],
   icon = sushicon,
-  label = ~melb_icon$name[2],
-  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px")) %>%
+  label = ~melb_icon$name[2]) %>%
 addMarkers(
   melb_icon$longitude[3], melb_icon$latitude[3],
   icon = cofcon,
-  label = ~melb_icon$name[3],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  label = ~melb_icon$name[3])%>% 
 addMarkers(
   melb_icon$longitude[4], melb_icon$latitude[4],
   icon = cofcon,
-  label = ~melb_icon$name[4],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  label = ~melb_icon$name[4])%>% 
 addMarkers(
   melb_icon$longitude[5], melb_icon$latitude[5],
   icon = auscon,
-  label = ~melb_icon$name[5],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  label = ~melb_icon$name[5])%>% 
   addMarkers(
   melb_icon$longitude[6], melb_icon$latitude[6],
   icon = auscon,
-  label = ~melb_icon$name[6],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE, textsize = "17px"))%>% 
+  label = ~melb_icon$name[6])%>% 
 addMarkers(
   melb_icon$longitude[7], melb_icon$latitude[7],
   icon = sushicon,
-  label = ~melb_icon$name[7],
-  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))%>% 
+  label = ~melb_icon$name[7])%>% 
 addMarkers(
   melb_icon$longitude[8], melb_icon$latitude[8],
   icon = sushicon,
-  label = ~melb_icon$name[8],
-  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))%>% 
+  label = ~melb_icon$name[8])%>% 
 addMarkers(
   melb_icon$longitude[9], melb_icon$latitude[9],
   icon = frencon,
-  label = ~melb_icon$name[9],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  label = ~melb_icon$name[9])%>% 
 addMarkers(
   melb_icon$longitude[10], melb_icon$latitude[10],
   icon = frencon,
-  label = ~melb_icon$name[10],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  label = ~melb_icon$name[10])%>% 
 addMarkers(
   melb_icon$longitude[11], melb_icon$latitude[11],
   icon = cofcon,
-  label = ~melb_icon$name[11],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE, textsize = "17px")) %>% 
+  label = ~melb_icon$name[11]) %>% 
 addMarkers(
   melb_icon$longitude[12], melb_icon$latitude[12],
   icon = sushicon,
-  label = ~melb_icon$name[12],
-  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))
+  label = ~melb_icon$name[12])
 
-map_testcon
+mapico
 
-mapshot(map_testcon, file = paste0(getwd(), "/map_icon.jpeg"))
+mapshot(mapico, file = paste0(getwd(), "/map_icon.jpeg"))
 
 ```
 
-Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and australian food restaurants as indicated by figure \@ref(fig:map-icon). This fact support an opinion that "japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013" @sushi.
+Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and Australian food restaurants as indicated by figure \@ref(fig:map-icon). This fact support an opinion that "Japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013" @sushi.
 
 ```{r map-icon, fig.cap="Sushi Restaurants are Dominating Top List", out.width= "70%", fig.align='center', echo = FALSE}
 knitr::include_graphics("map_icon.jpeg")
@@ -543,15 +532,15 @@ This fact support an opinion that "japanese food is still growing since UNESCO d
 In this section we will be looking into restaurants with gluten free food.  
 
 We will explore high end restaurants which offer gluten free food.
-To look for a good restaraunt we will be using aggregate ratings.
-Popular restaraunts will have more then 500 reviews. 
+To look for a good restaurant we will be using aggregate ratings.
+Popular restaurants will have more then 500 reviews. 
 Being realistic, calculating average cost for one person's meal.
 Most Instagramable place.
 
 
 ## Checking out the category "Gluten-Free"!
 
-For diet concious people and people with Gluten Allergy.
+For diet conscious people and people with Gluten Allergy.
 
 ```{r}
 glu <- zmt$search(entity_id = "259", entity_type = "city", category = "Gluten-Free")
@@ -625,7 +614,7 @@ gluten <- ggplot(glute,
 gluten
 ```
 
-The graph Figure \@ref(fig:review-price-relation) shows top restaraunts in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaraunt with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
+The graph Figure \@ref(fig:review-price-relation) shows top restaurants in Melbourne, using the category "gluten free", with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaurant with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
 
 
 ```{r instagrammable-plot, fig.cap = "Can I instagram it?",fig.align = "center"}
@@ -649,11 +638,16 @@ glutenf <- ggplot(glute,
 glutenf
 ```
 
-The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
+The graph Figure \@ref(fig:instagrammable-plot) visualizes restaurants with good reviews and potential of each restaurant on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
-In Table \@ref(tab:top10-Jap) we can look at the top 10 popular japanese restaurants in Melbourne alongwith their location and rating. 'Don-Don' is a very popular japanese restaurant with 3168 votes. 'Shira Nui'is the highest rated restaurant with an aggreated rating of 4.8 out of 5.
+In Table \@ref(tab:top10-Jap) we can look at the top 10 popular Japanese restaurants in Melbourne along with their location and rating. 'Don-Don' is a very popular Japanese restaurant with 3168 votes. 'Shira Nui' is the highest rated restaurant with an aggregated rating of 4.8 out of 5.
 
+<<<<<<< HEAD
 The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
+=======
+
+The graph Figure \@ref(fig:instagrammable-plot) visualizes restaurants with good reviews and potential of each restaurant on how much instagrammable it is. Lune Crissantete has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
+>>>>>>> 3637972020c3b19318c66fbc539f04978d6309ab
 
 \clearpage 
 
