@@ -5,8 +5,8 @@ Our report will cover restaurants and their food in Melbourne. We use data from 
 
 The report will be divided into four sections:
 Section 1: Relationship between taste and price
-Section 2: Popularity of different cuisine in Melbourne
-Section 3: Finding the very best restaurants in Melbourne
+Section 2: Finding the very best restaurants in Melbourne
+Section 3: Popularity of different cuisine in Melbourne
 Section 4: Finding gluten free food/restaurant in Melbourne
 
 
