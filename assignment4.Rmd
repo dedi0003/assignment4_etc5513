@@ -416,17 +416,16 @@ It is seen from the figure \@ref(fig:maps) that three restaurants are located in
 #creating dataset for map
 melb_icon <- melb_best %>% 
   select(name, locality, cuisines, longitude, latitude, rating = aggregate_rating) %>% 
-  as.data.frame()
-
-melb_icon %>% 
-  mutate(food_type = str_extract(cuisines, c("Korean", "Sushi", "Coffee", "Coffee", "Australian","Australian", "Sushi", "Sushi", "French","French", "Coffee", "Sushi"))) %>% 
+   mutate(food_type = str_extract(cuisines, c("Korean", "Sushi", "Coffee", "Coffee", "Australian","Australian", "Sushi", "Sushi", "French","French", "Coffee", "Sushi"))) %>% 
   filter(rating >= 4.8) %>% 
   group_by(locality)
+
+melb_icon
 
 ```
 
 
-```{r include=FALSE, cache=TRUE}
+```{r include=FALSE}
 sushicon <- icons(
   iconUrl = "https://i.imgur.com/7KibpoF.png",
   iconWidth = 25, iconHeight = 30,
@@ -521,17 +520,17 @@ addMarkers(
 
 map_testcon
 
-mapshot(map_testcon, file = paste0(getwd(), "/map_testcon.png"))
+mapshot(map_testcon, file = paste0(getwd(), "/map_icon.jpeg"))
 
 ```
 
-Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and australian food restaurants as indicated by figure \@ref(fig:map-icon). Japanese-sushi restaurant is indicated by sushi icon, Korean-BBQ restaurant is inidicated by meat icon, Coffee shop is depicted by coffee icon, Australian restaurant is indicated by burger icon while French restaurant is flagged by cheese icon.
-This fact support an opinion that "japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013" @sushi.
 
 ```{r map-icon, fig.cap="Sushi Restaurants are Dominating Top List", out.width= "70%", fig.align='center', echo = FALSE}
-knitr::include_graphics("map_testcon.png")
+knitr::include_graphics("map_icon.jpeg")
 ```
 
+Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and australian food restaurants as shown by figure \@ref(fig:map-icon).
+This fact support an opinion that "japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013" @sushi.
 
  
 # Exploring gluten free food/restaurants in Melbourne
@@ -649,7 +648,6 @@ plotly::ggplotly(glutenf)
 The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
 In Table \@ref(tab:top10-Jap) we can look at the top 10 popular japanese restaurants in Melbourne alongwith their location and rating. 'Don-Don' is a very popular japanese restaurant with 3168 votes. 'Shira Nui'is the highest rated restaurant with an aggreated rating of 4.8 out of 5.
-
 
 The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
