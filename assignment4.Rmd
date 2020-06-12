@@ -91,8 +91,9 @@ melb_top100_filter %>%
 
 \section*{Introduction} 
 
-In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @leaflet, @rgdal. 
+In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @leaflet. 
 
+<<<<<<< HEAD
 For this assignment we will be looking at scrapping data from Zomato, one of the largest foods aggregators in the world @zomato. Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list @zomatomelb to gain insight into some of the most popular restaurants in Melbourne.   
 
 This report will include four sections looking at:
@@ -244,37 +245,34 @@ melb_top100_filter %>%
 
 From Figure \@ref(fig:rating-count) we can see restaurants in the second and fourth price category all rank in either the very good or excellent category. 3 has the highest count in all categories, however, this may be due to the higher count. We see all price levels have restaurants with high ratings.  
 
-\section*{Map Plot of The Best Restaurants}
 
-This report will look at the distribution of best restaurants (having rating equals to or more than 4.8 out of 5) in Melbourne using leaflet map.
+\section*{Finding The Very Best Restaurants of Melbourne}
+The last section of this report is covering composition and distribution of the very best restaurants in Melbourne-Victoria. In order to find the very best restaurant, this report will filter out 100 restaurants which are listed in **"Best of Melbourne"** category on Zomato's website. The very best restaurants are described as one which has rating equals to or more than 4.8 out of 5.
+After filtered out the dataset, several highest-rated restaurants fill the top list as shown in table \@ref(tab:best-restaurant).
 
 ```{r include=FALSE}
-
-
-# melb_top100 %>% 
-#   select(name, aggregate_rating, rating_text, address) %>% 
-#   group_by() %>% 
-#   arrange(desc(aggregate_rating)) %>% 
-#   head(20)
 
 melb_best <- melb_top100 %>% 
   filter(aggregate_rating >= 4.8) %>% 
       as.data.frame()
+
+summary(melb_best)
 ```
 
 
 ```{r best-restaurant, echo=FALSE}
-melb_11 <- melb_best %>% 
-  select(name, locality, price_for_two = average_cost_for_two, cuisines, rating = aggregate_rating) %>% 
+melb_best_resto <- melb_best %>% 
+  select(name, cuisines, locality, price_for_two = average_cost_for_two, rating = aggregate_rating) %>% 
   filter(rating >= 4.8) %>% 
-  group_by(locality) %>% 
-  kable(caption = "Top Eleven Best Restaurant in Melbourne") %>% 
-  kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 8)
+  arrange(desc(rating)) %>% 
+  kable(caption = "The Very Best Restaurants in Melbourne According to Zomato Rating") %>% 
+  kableExtra::kable_styling(latex_options = c("striped", "hold_position"), stripe_color  = "pink", font_size = 8)
 
-melb_11
+melb_best_resto
 ```
 
-As shown in table \@ref(tab:best-restaurant) above, there are eleven restaurants which are rated very high by Zomato users, hence can be described as best of the best restaurants in Melbourne.
+
+From table \@ref(tab:best-restaurant) above, there are twelve restaurants which have minimum rating 4.8 out of 5 hence can be described as the very best restaurants in Melbourne. The prices, cuisines and locations in the top list are vary but with some patterns that will be further explored in the following paragraphs.
 
 ```{r create-map, include=FALSE}
 
@@ -287,7 +285,7 @@ map_melb <- leaflet(melb_best) %>%
                    lat = melb_best$latitude, 
                    label = melb_best$name,
   labelOptions = labelOptions(textOnly = T, noHide = T, textsize = "14px"),
-  radius = ~ifelse(melb_best$rating_obj.title.text >= 4.8, 6, 15),
+  radius = ~ifelse(melb_best$aggregate_rating > 4.8, 10, 6),
   color = ~pal(melb_best$average_cost_for_two),
   stroke = FALSE, fillOpacity = 0.9
   ) %>% 
@@ -295,7 +293,12 @@ map_melb <- leaflet(melb_best) %>%
     title = "Average Cost for Two",
     labFormat = labelFormat(prefix = "$"),
     opacity = 1) %>% 
-  setView(lng = 145.054570, lat = -37.846302, zoom = 12.44)
+  setView(lng = 145.054570, lat = -37.846302, zoom = 12.44) %>% 
+  addRectangles(
+    lng1= 144.915218, lat1= -37.86,
+    lng2= 145.067654, lat2= -37.786092,
+    fillColor = "transparent"
+  )
 
 map_melb
 
@@ -307,18 +310,22 @@ mapshot(map_melb, file = paste0(getwd(), "/map.png"))
 knitr::include_graphics("map.png")
 ```
 
-CBD, Fitzroy and North Melbourne each have two restaurans located in their areas. Other restaurants are located in Carlton, Camberwell, Hawtorn, Richmond and Glen Waverley.
+Regarding the average price and location of the restaurants, figure \@ref(fig:maps) shows the map plot of these highest-rated restaurants with their attribute of average food price for two person. The average price for two persons is differentiated by color, while larger circle indicates higher rating (4.9).
 
-Figure \@ref(fig:maps) above shows the location of these highest-rate restaurants and their average food price. The average price for two persons is differentiated by color.
+It is seen from the figure \@ref(fig:maps) that three restaurants are located in CBD, which is not surprising given the nature of CBD as the epicentre of Melbourne. Other restaurants are relatively still located close to CBD like Fitzroy, North Melbourne, Carlton and Hawthorn where eight restaurants base in. One outlier from the list is Shira Nui restaurant, where its location is quite far away from other restaurants in the group. This japanese-sushi restaurant is located in Glen Waverley suburb which is about one and half hour driving from the CBD.
+
 
 ```{r include=FALSE}
+#creating dataset for map
 melb_icon <- melb_best %>% 
   select(name, locality, cuisines, longitude, latitude, rating = aggregate_rating) %>% 
-  mutate(food_type = str_extract(cuisines, c("Sushi", "Coffee", "BBQ", "Coffee", "Australian", "Sushi", "French", "Sushi", "French", "Coffee"))) %>% 
+  as.data.frame()
+
+melb_icon %>% 
+  mutate(food_type = str_extract(cuisines, c("Korean", "Sushi", "Coffee", "Coffee", "Australian","Australian", "Sushi", "Sushi", "French","French", "Coffee", "Sushi"))) %>% 
   filter(rating >= 4.8) %>% 
   group_by(locality)
 
-melb_icon
 ```
 
 
@@ -357,40 +364,38 @@ cofcon <- icons(
 map_testcon <- leaflet(melb_icon) %>%
   addTiles() %>% 
   addProviderTiles(providers$CartoDB, options = providerTileOptions(opacity = 1)) %>% 
-  addMarkers(
+addMarkers(
   melb_icon$longitude[1], melb_icon$latitude[1],
+  icon = bbqcon) %>%
+addMarkers(melb_icon$longitude[2], melb_icon$latitude[2],
   icon = sushicon,
-  label = ~melb_icon$name[1],
-  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px")) %>%
-  addMarkers(melb_icon$longitude[2], melb_icon$latitude[2],
-  icon = cofcon,
   label = ~melb_icon$name[2],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE)) %>%
-  addMarkers(
+  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px")) %>%
+addMarkers(
   melb_icon$longitude[3], melb_icon$latitude[3],
-  icon = bbqcon,
+  icon = cofcon,
   label = ~melb_icon$name[3],
   labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
-  addMarkers(
+addMarkers(
   melb_icon$longitude[4], melb_icon$latitude[4],
   icon = cofcon,
   label = ~melb_icon$name[4],
   labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
-  addMarkers(
+addMarkers(
   melb_icon$longitude[5], melb_icon$latitude[5],
   icon = auscon,
   label = ~melb_icon$name[5],
   labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
   addMarkers(
   melb_icon$longitude[6], melb_icon$latitude[6],
-  icon = sushicon,
+  icon = auscon,
   label = ~melb_icon$name[6],
-  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))%>% 
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE, textsize = "17px"))%>% 
 addMarkers(
   melb_icon$longitude[7], melb_icon$latitude[7],
-  icon = frencon,
+  icon = sushicon,
   label = ~melb_icon$name[7],
-  labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
+  labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))%>% 
 addMarkers(
   melb_icon$longitude[8], melb_icon$latitude[8],
   icon = sushicon,
@@ -401,23 +406,29 @@ addMarkers(
   icon = frencon,
   label = ~melb_icon$name[9],
   labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
-  addMarkers(
+addMarkers(
   melb_icon$longitude[10], melb_icon$latitude[10],
-  icon = cofcon,
+  icon = frencon,
   label = ~melb_icon$name[10],
   labelOptions = labelOptions(noHide = F, textOnly = TRUE))%>% 
-  addMarkers(
+addMarkers(
   melb_icon$longitude[11], melb_icon$latitude[11],
-  icon = sushicon,
+  icon = cofcon,
   label = ~melb_icon$name[11],
+  labelOptions = labelOptions(noHide = F, textOnly = TRUE, textsize = "17px")) %>% 
+addMarkers(
+  melb_icon$longitude[12], melb_icon$latitude[12],
+  icon = sushicon,
+  label = ~melb_icon$name[12],
   labelOptions = labelOptions(noHide = T, textOnly = TRUE, textsize = "17px"))
+
+map_testcon
 
 mapshot(map_testcon, file = paste0(getwd(), "/map_testcon.png"))
 
 ```
 
-
-Four out of eleven highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, as indicated by figure \@ref(fig:map-icon).
+Furthermore, four out of twelve highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and australian food restaurants as indicated by figure \@ref(fig:map-icon). Japanese-sushi restaurant is indicated by sushi icon, Korean-BBQ restaurant is inidicated by meat icon, Coffee shop is depicted by coffee icon, Australian restaurant is indicated by burger icon while French restaurant is flagged by cheese icon.
 
 ```{r map-icon, fig.cap="Sushi Restaurants are Dominating Top List", out.width= "70%", fig.align='center', echo = FALSE}
 knitr::include_graphics("map_testcon.png")
