@@ -98,8 +98,8 @@ melb_top100_filter %>%
 
 \clearpage
 
-\section*{Introduction} 
-
+\section*{Introduction}   
+# Introduction  
 
 For this assignment we will be looking at scrapping data from Zomato, one of the largest foods aggregators in the world @zomato. Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list @zomatomelb to gain insight into some of the most popular restaurants in Melbourne.   
 
@@ -113,8 +113,8 @@ This report will include four sections looking at:
 In this report we have used the following packages @tidyverse, @romato, @kableExtra, @knitr, @dplyr, @ggplot2, @leaflet, @readr, @mapview, @viridis, @plotly. 
 
 
-\section*{Is expensive food better than cheap food?}
-
+  
+# Is expensive food better than cheap food?
 
 In this section we will be using the Zomato Best of Melbourne to explore whether expensive food is "better" than cheap food. To conduct this analysis, we will be looking at:
 
@@ -123,7 +123,7 @@ In this section we will be using the Zomato Best of Melbourne to explore whether
 * Comparing prices and aggregate ratings 
 * Determining whether there is a relationship between prices and ratings
 
-### What is considered cheap and expensive food?
+## What is considered cheap and expensive food?  
 
 ```{r price-ranges,fig.cap= "Price Ranges"}
 melb_top100_filter %>%
@@ -161,7 +161,7 @@ price_range %>% rename(`Price Range` = price_range) %>%
 
 From Table \@ref(tab:price-range-table) we can see the range of prices that make up each price category.
 
-### What the breakdown of price ranges of the restaurants? 
+## What the breakdown of price ranges of the restaurants?   
 
 ```{r price-range-count, fig.cap= "Price Range Counts", fig.pos="h", fig.height=4, fig.width=5}
 melb_top100_filter %>%
@@ -183,7 +183,7 @@ melb_top100_filter %>%
 From Figure \@ref(fig:price-range-count) We can see price range 3 has the most counts. One thing to note however is price range 3 has a range of $40 compared to 1 and 2 which is $10 and $15, respectively. It may be unfair to conclude there is a higher count of more expensive food as the ranges included in the expensive ranges are larger than the lower ones. 
 
 
-### Comparing prices and aggregate ratings
+## Comparing prices and aggregate ratings  
 
 ```{r price-ratings, fig.cap= "Price Ranges to Aggregate Ratings", echo = FALSE}
 melb_top100_filter %>% 
@@ -198,7 +198,7 @@ melb_top100_filter %>%
 
 From Figure \@ref(fig:price-ratings) we can see the median aggregate rating for price range 1 is the highest. In fact, we can see a large amount of lower priced restaurants outranking higher priced restaurants in terms of aggregate ratings.
 
-### Is there a relationship between prices and ratings 
+## Is there a relationship between prices and ratings   
 
 ```{r cost-rating-relationship, fig.cap= "Average Cost for Two to Aggregate Rating Relationship", echo = FALSE}
 
@@ -257,7 +257,8 @@ From Figure \@ref(fig:rating-count) we can see restaurants in the second and fou
 
 \clearpage
 
-\section*{Popularity of different cuisines in Melbourne} 
+  
+# Popularity of different cuisines in Melbourne
 
 In this section we will look at the popularity of different cuisines in Melbourne. The analysis is based on the total votes restaurants serving these cuisine have.
 
@@ -340,7 +341,9 @@ In Table \@ref(tab:top10-Jap) we can look at the top ten popular Japanese restau
 \clearpage
 
 
-\section*{Finding The Very Best Restaurants of Melbourne}
+ 
+# Finding The Very Best Restaurants of Melbourne
+
 This section is covering composition and distribution of the very best restaurants in Melbourne-Victoria. In order to find the very best restaurant, this report will filter out 100 restaurants which are listed in **"Best of Melbourne"** category on Zomato's website. The very best restaurants are described as one which has rating equals to or more than 4.8 out of 5.
 After filtered out the dataset, several highest-rated restaurants fill the top list as shown in table \@ref(tab:best-restaurant).
 
@@ -529,7 +532,8 @@ knitr::include_graphics("map_testcon.png")
 ```
 
 
-\section*{Exploring gluten free food/restaurants in Melbourne}
+ 
+# Exploring gluten free food/restaurants in Melbourne
 
 In this section we will be looking into restaurants with gluten free food.  
 
@@ -577,11 +581,19 @@ glute <- glut %>% filter(aggregate_rating > 4.5) %>%
                        photo_count, 
                        locality, 
                        aggregate_rating) %>%
-arrange(locality)    
-glute
+arrange(locality)
+
+
+glute_kable <- glute %>%
+  kable() %>%
+  kable_styling(latex_options= c("striped", "condensed"), full_width = F)
+
+glute_kable
+
+
 ```
 
-The Table \@ref(fig:good-restaraunt-gluten-free) shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
+The Table \@ref(tab:good-restaraunt-gluten-free) shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average. 
 
 ## Visualizing findings!
 
@@ -641,7 +653,7 @@ In Table \@ref(tab:top10-Jap) we can look at the top 10 popular japanese restaur
 The graph Figure \@ref(fig:instagrammable-plot) visualises restaraunts with good reviews and potential of each restaraunt on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
 
 
-### Conclusion
+# Conclusion
 
 From this analysis we find there is no real relationship between restaurant prices and quality suggesting expensive food is not better than cheap. Most of the very best restaurants in Melbourne is located near CBD.
 
