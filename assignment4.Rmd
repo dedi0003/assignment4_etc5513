@@ -319,7 +319,7 @@ mapshot(map_melb, file = paste0(getwd(), "/map.png"))
 
 ```
 
-```{r maps, fig.cap="Best of Melbourne", out.width= "70%", fig.align='center', echo = FALSE, eval = FALSE}
+```{r maps, fig.cap="Best of Melbourne", out.width= "70%", fig.align='center', echo = FALSE}
 knitr::include_graphics("map.png")
 ```
 
@@ -431,7 +431,7 @@ mapshot(mapico, file = paste0(getwd(), "/map_icon.jpeg"))
 
 Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and Australian food restaurants as indicated by figure \@ref(fig:map-icon). This fact support an opinion that "Japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013" @sushi.
 
-```{r map-icon, fig.cap="Sushi Restaurants are Dominating Top List", out.width= "70%", fig.align='center', eval = FALSE,}
+```{r map-icon, fig.cap="Sushi Restaurants are Dominating Top List", out.width= "70%", fig.align='center', echo = FALSE}
 knitr::include_graphics("map_icon.jpeg")
 ```
 

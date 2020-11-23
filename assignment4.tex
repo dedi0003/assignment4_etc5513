@@ -21,7 +21,7 @@
 \PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
 \usepackage[unicode=true]{hyperref}
 \hypersetup{
-            pdftitle={Zomato - Best of Melbourne Analysis},
+            pdftitle={Corona Virus Report},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -32,15 +32,6 @@
 \usepackage{longtable,booktabs}
 % Fix footnotes in tables (requires footnote package)
 \IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{long table}}{}
-\usepackage{graphicx,grffile}
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
 }{% else
@@ -58,7 +49,7 @@
 \makeatother
 
 
-\title{Zomato - Best of Melbourne Analysis}
+\title{Corona Virus Report}
 
 %% MONASH STUFF
 
@@ -199,11 +190,11 @@
 \DeclareDelimFormat[cbx@textcite]{nameyeardelim}{\addspace}
 \makeatother
 
-\author{\sf\Large\textbf{ Dea Avega Editya}\\ {\sf\large Master of BA\\[0.5cm]} \sf\Large\textbf{ Muhammad Soban Qasim}\\ {\sf\large Master of BA\\[0.5cm]} \sf\Large\textbf{ Abhishek Sinha}\\ {\sf\large Master of BA\\[0.5cm]} \sf\Large\textbf{ Vinny Vu}\\ {\sf\large Master of BA\\[0.5cm]}}
+\author{\sf\Large\textbf{ XXX XXXX}\\ {\sf\large XXX\\[0.5cm]} \sf\Large\textbf{ Reports XXXX}\\ {\sf\large XXX\\[0.5cm]} \sf\Large\textbf{ XXX XXX}\\ {\sf\large XXX\\[0.5cm]}}
 
 \date{\sf\Date~\Month~\Year}
 \makeatletter
-\lfoot{\sf Editya, Qasim, Sinha, Vu: \@date}
+\lfoot{\sf XXXX, XXXX, XXX: \@date}
 \makeatother
 
 
@@ -214,7 +205,7 @@
 \def\telephone#1{\gdef\@telephone{#1}}
 \def\email#1{\gdef\@email{#1}}
 \makeatother
-  \organization{ETC5513 Collaborative and Reproductible Practices}
+  \organization{Australian Government COVID19}
 
   \def\name{Our consultancy \newline add names \&\newline add names}
 
@@ -285,15 +276,6 @@
 \setstretch{1.5}
 
 %% Any special functions or other packages can be loaded here.
-
-\usepackage{float}
-\let\origfigure\figure
-\let\endorigfigure\endfigure
-\renewenvironment{figure}[1][2] {
-    \expandafter\origfigure\expandafter[H]
-} {
-    \endorigfigure
-}%% Any special functions or other packages can be loaded here.
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -307,6 +289,7 @@
 \usepackage{threeparttablex}
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
+\usepackage{xcolor}
 
 
 \begin{document}           % Begining of document body -----------------------------------------------
@@ -318,454 +301,175 @@
 }
 \clearpage
 
-\section*{Introduction}
-
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
-
-For this assignment we will be looking at scrapping data from Zomato, one of the largest foods aggregators in the world \textcite{zomato}. Zomato provides information on restaurants including, price, location, reviews and more. For the purposes on our analysis we will be looking at the best of Melbourne list \textcite{zomatomelb} to gain insight into some of the most popular restaurants in Melbourne.
-
-This report will include four sections looking at:
+\hypertarget{research-questions}{%
+\section{Research questions:}\label{research-questions}}
 
 \begin{itemize}
-\tightlist
 \item
-  Is expensive food better than cheap food?
+  Visual summary of corona virus contagion and dead rates in the following countries
+
+  \begin{enumerate}
+    \item Italia
+    \item Germany
+    \item Greece
+    \item Switzerland 
+    \item Sweden
+    \item France
+  \end{enumerate}
 \item
-  Finding the very best restaurants in Melbourne
-\item
-  Popularity of different cuisine in Melbourne
-\item
-  Exploring restaurants with gluten free food in Melbourne
+  Visual summary of corona virus cases and deaths rates in the following countries
 \end{itemize}
 
-In this report we have used the following packages \textcite{tidyverse}, \textcite{romato}, \textcite{kableExtra}, \textcite{knitr}, \textcite{dplyr}, \textcite{ggplot2}, \textcite{leaflet}, \textcite{readr}, \textcite{mapview}, \textcite{viridis}, \textcite{plotly}.
+\begin{enumerate}
+   \item Italia
+   \item Germany
+ \end{enumerate}
+
+\hypertarget{data-set-introduction}{%
+\section{Data set introduction}\label{data-set-introduction}}
+
+"The dataset contains the latest available public data on COVID-19 including a daily situation update, the epidemiological curve and the global geographical distribution (EU/EEA and the UK, worldwide).
+
+On 12 February 2020, the novel coronavirus was named severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) while the disease associated with it is now referred to as COVID-19. Since the beginning of the coronavirus pandemic, ECDC's Epidemic Intelligence team has been collecting on daily basis the number of COVID-19 cases and deaths, based on reports from health authorities worldwide. To insure the accuracy and reliability of the data, this process is being constantly refined. This helps to monitor and interpret the dynamics of the COVID-19 pandemic not only in the European Union (EU), the European Economic Area (EEA), but also worldwide. Every day between 6.00 and 10.00 CET, a team of epidemiologists screens up to 500 relevant sources to collect the latest figures. The data screening is followed by ECDC's standard epidemic intelligence process for which every single data entry is validated and documented in an ECDC database. An extract of this database, complete with up-to-date figures and data visualisations, is then shared on the ECDC website, ensuring a maximum level of transparency." More information available \href{https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data}{here}
+
+\hypertarget{exploratory-data-analysis}{%
+\section{Exploratory data analysis}\label{exploratory-data-analysis}}
+
+\hypertarget{overall}{%
+\subsection{Overall}\label{overall}}
+
+\begin{figure}
+
+{\centering \includegraphics{Week8_demo_files/figure-latex/covid-europe-1} 
+
+}
+
+\caption{Rates of covid cases}\label{fig:covid-europe}
+\end{figure}
+
+In figure \ref{fig:covid-europe} we observe the corona virus rates of a number of european countries \ldots{}
+
+\begin{figure}
+
+{\centering \includegraphics{Week8_demo_files/figure-latex/coviddeath1-1} 
+
+}
+
+\caption{Death reates for COVID19}\label{fig:coviddeath1}
+\end{figure}
+
+Figure \ref{fig:coviddeath1} wdisplay the death reates of corona virus rates in Italy, Germany \ldots{}
 
 \clearpage
 
-\hypertarget{is-expensive-food-better-than-cheap-food}{%
-\section{Is expensive food better than cheap food?}\label{is-expensive-food-better-than-cheap-food}}
-
-In this section we will be using the Zomato Best of Melbourne to explore whether expensive food is ``better'' than cheap food. To conduct this analysis, we will be looking at:
-
-\begin{itemize}
-\tightlist
-\item
-  What is considered cheap and expensive food
-\item
-  What the breakdown of price ranges of the restaurants is
-\item
-  Comparing prices and aggregate ratings
-\item
-  Determining whether there is a relationship between prices and ratings
-\end{itemize}
-
-\hypertarget{what-is-considered-cheap-and-expensive-food}{%
-\subsection{What is considered cheap and expensive food?}\label{what-is-considered-cheap-and-expensive-food}}
+\hypertarget{oceania}{%
+\subsection{Oceania}\label{oceania}}
 
 \begin{figure}
-\centering
-\includegraphics{assignment4_files/figure-latex/price-ranges-1.pdf}
-\caption{\label{fig:price-ranges}Price Ranges}
+
+{\centering \includegraphics{Week8_demo_files/figure-latex/oceania-cases-1} 
+
+}
+
+\caption{COVID cases in Australia and New Zealand}\label{fig:oceania-cases}
 \end{figure}
 
-From Figure \ref{fig:price-ranges} we can see Zomato breaks down price ranges into 4 categories with 4 being the most expensive to 1 being the least expensive.
-
-\begin{table}[!h]
-
-\caption{\label{tab:price-range-table}Price Ranges}
-\centering
-\begin{tabular}[t]{r|r|r|r|r}
-\hline
-Price Range & Maximum & Median & Minimum & Range\\
-\hline
-1 & 25 & 20 & 15 & 10\\
-\hline
-2 & 45 & 40 & 30 & 15\\
-\hline
-3 & 90 & 60 & 50 & 40\\
-\hline
-4 & 600 & 150 & 100 & 500\\
-\hline
-\end{tabular}
-\end{table}
-
-From Table \ref{tab:price-range-table} we can see the range of prices that make up each price category.
-
-\hypertarget{what-the-breakdown-of-price-ranges-of-the-restaurants}{%
-\subsection{What the breakdown of price ranges of the restaurants?}\label{what-the-breakdown-of-price-ranges-of-the-restaurants}}
+The rates of corona virus in Australia and New Zealand over time are displayed in \ref{fig:oceania-cases}
 
 \begin{figure}
-\centering
-\includegraphics{assignment4_files/figure-latex/price-range-count-1.pdf}
-\caption{\label{fig:price-range-count}Price Range Counts}
+
+{\centering \includegraphics{Week8_demo_files/figure-latex/oceania-death-1} 
+
+}
+
+\caption{Death rates of COVID in Oceania}\label{fig:oceania-death}
 \end{figure}
 
-From Figure \ref{fig:price-range-count} We can see price range 3 has the most counts. One thing to note however is price range 3 has a range of \$40 compared to 1 and 2 which is \$10 and \$15, respectively. It may be unfair to conclude there is a higher count of more expensive food as the ranges included in the expensive ranges are larger than the lower ones.
+The death rates of corona virus in Australia and New Zealand over time are displayed in \ref{fig:oceania-death}
 
-\hypertarget{comparing-prices-and-aggregate-ratings}{%
-\subsection{Comparing prices and aggregate ratings}\label{comparing-prices-and-aggregate-ratings}}
+\hypertarget{comparisons}{%
+\section{Comparisons}\label{comparisons}}
+
+\begin{center}\includegraphics{Week8_demo_files/figure-latex/unnamed-chunk-3-1} \end{center}
 
 \begin{figure}
-\centering
-\includegraphics{assignment4_files/figure-latex/price-ratings-1.pdf}
-\caption{\label{fig:price-ratings}Price Ranges to Aggregate Ratings}
+
+{\centering \includegraphics{Week8_demo_files/figure-latex/unnamed-chunk-4-1} 
+
+}
+
+\caption{Covid cases}\label{fig:unnamed-chunk-4}
 \end{figure}
-
-From Figure \ref{fig:price-ratings} we can see the median aggregate rating for price range 1 is the highest. In fact, we can see a large amount of lower priced restaurants outranking higher priced restaurants in terms of aggregate ratings.
-
-\hypertarget{is-there-a-relationship-between-prices-and-ratings}{%
-\subsection{Is there a relationship between prices and ratings}\label{is-there-a-relationship-between-prices-and-ratings}}
-
-\begin{figure}
-\centering
-\includegraphics{assignment4_files/figure-latex/cost-rating-relationship-1.pdf}
-\caption{\label{fig:cost-rating-relationship}Average Cost for Two to Aggregate Rating Relationship}
-\end{figure}
-
-From Figure \ref{fig:cost-rating-relationship} we can see there is not a strong relationship between the average cost for two and the aggregate ratings suggesting there is no relationship between price and food quality. We see a slight upwards trend at the higher price levels. However, this is only based on 5 restaurants with drastically higher prices. We see most of the restaurants fall below the \$200 price point. This might even suggest lower priced restaurants out rank the higher priced restaurants due to the higher count.
-
-\begin{table}[!h]
-
-\caption{\label{tab:rating-ranges}Rating Ranges}
-\centering
-\begin{tabular}[t]{l|r|r}
-\hline
-Rating Text & Maximum & Minimum\\
-\hline
-Excellent & 4.9 & 4.5\\
-\hline
-Very Good & 4.4 & 4.1\\
-\hline
-\end{tabular}
-\end{table}
-
-Table \ref{tab:rating-ranges} shows range of aggregate ratings that make up each rating levels.
-
-\begin{figure}
-\centering
-\includegraphics{assignment4_files/figure-latex/rating-count-1.pdf}
-\caption{\label{fig:rating-count}Average Rating Count}
-\end{figure}
-
-From Figure \ref{fig:rating-count} we can see restaurants in the second and fourth price category all rank in either the very good or excellent category. 3 has the highest count in all categories, however, this may be due to the higher count. We see all price levels have restaurants with high ratings.
 
 \clearpage
 
-\hypertarget{finding-the-very-best-restaurants-of-melbourne}{%
-\section{Finding The Very Best Restaurants of Melbourne}\label{finding-the-very-best-restaurants-of-melbourne}}
-
-This section is covering composition and distribution of the very best restaurants in Melbourne-Victoria. In order to find the very best restaurant, this report will filter out 100 restaurants which are listed in \textbf{``Best of Melbourne''} category on Zomato's website. The very best restaurants are described as one which has rating equals to or more than 4.8 out of 5.
-After filtered out the dataset, several highest-rated restaurants fill the top list as shown in table \ref{tab:best-restaurant}.
-
 \begin{table}[!h]
 
-\caption{\label{tab:best-restaurant}The Very Best Restaurants in Melbourne According to Zomato Rating}
+\caption{\label{tab:covidtab}Covid cases and deaths per month}
 \centering
-\fontsize{8}{10}\selectfont
-\begin{tabular}[t]{l|l|l|r|r}
-\hline
-name & cuisines & locality & price\_for\_two & rating\\
-\hline
-\cellcolor{pink}{Tipo 00} & \cellcolor{pink}{Italian} & \cellcolor{pink}{CBD} & \cellcolor{pink}{150} & \cellcolor{pink}{4.9}\\
-\hline
-Minamishima & Japanese, Sushi & Richmond & 450 & 4.9\\
-\hline
-\cellcolor{pink}{Dexter} & \cellcolor{pink}{American, BBQ} & \cellcolor{pink}{Preston} & \cellcolor{pink}{110} & \cellcolor{pink}{4.9}\\
-\hline
-Le Petit Gateau & French, Desserts, Coffee and Tea & CBD & 30 & 4.9\\
-\hline
-\cellcolor{pink}{Vue de monde} & \cellcolor{pink}{Australian, Contemporary} & \cellcolor{pink}{CBD} & \cellcolor{pink}{600} & \cellcolor{pink}{4.9}\\
-\hline
-Lune Croissanterie & Bakery, French & Fitzroy & 25 & 4.9\\
-\hline
-\cellcolor{pink}{Beatrix} & \cellcolor{pink}{Coffee and Tea, Bakery} & \cellcolor{pink}{North Melbourne} & \cellcolor{pink}{30} & \cellcolor{pink}{4.9}\\
-\hline
-Patricia Coffee Brewers & Coffee and Tea & CBD & 15 & 4.9\\
-\hline
-\cellcolor{pink}{Agathé Pâtisserie} & \cellcolor{pink}{Bakery, Patisserie} & \cellcolor{pink}{South Melbourne Market, South Melbourne} & \cellcolor{pink}{15} & \cellcolor{pink}{4.9}\\
-\hline
-Hinoki Japanese Pantry & Japanese, Sushi & Fitzroy & 55 & 4.9\\
-\hline
-\cellcolor{pink}{Humble Rays} & \cellcolor{pink}{Coffee and Tea, Cafe Food, Asian Fusion} & \cellcolor{pink}{Carlton} & \cellcolor{pink}{50} & \cellcolor{pink}{4.8}\\
-\hline
-Rice Paper Scissors & Asian Fusion, Tapas & CBD & 80 & 4.8\\
-\hline
-\cellcolor{pink}{Shanklin Cafe} & \cellcolor{pink}{Modern Australian, Coffee and Tea, Cafe Food} & \cellcolor{pink}{Hawthorn} & \cellcolor{pink}{50} & \cellcolor{pink}{4.8}\\
-\hline
-Bibelot & Desserts, Ice Cream, Cafe Food, Coffee and Tea & South Melbourne & 30 & 4.8\\
-\hline
-\cellcolor{pink}{Aka Siro} & \cellcolor{pink}{Japanese} & \cellcolor{pink}{Collingwood} & \cellcolor{pink}{80} & \cellcolor{pink}{4.8}\\
-\hline
-La Belle Miette & Desserts, French, Coffee and Tea & CBD & 20 & 4.8\\
-\hline
-\cellcolor{pink}{Attica} & \cellcolor{pink}{Australian, Contemporary} & \cellcolor{pink}{Ripponlea} & \cellcolor{pink}{600} & \cellcolor{pink}{4.8}\\
-\hline
-Shira Nui & Sushi, Japanese & Glen Waverley & 150 & 4.8\\
-\hline
-\cellcolor{pink}{The Proud Peacock} & \cellcolor{pink}{Chinese, Thai, Vietnamese} & \cellcolor{pink}{Mount Waverley} & \cellcolor{pink}{45} & \cellcolor{pink}{4.8}\\
-\hline
-Punch Lane & Mediterranean, Modern Australian & CBD & 150 & 4.8\\
-\hline
-\cellcolor{pink}{Burch \& Purchese Sweet Studio} & \cellcolor{pink}{Desserts} & \cellcolor{pink}{South Yarra} & \cellcolor{pink}{25} & \cellcolor{pink}{4.8}\\
-\hline
-\end{tabular}
-\end{table}
-
-From table \ref{tab:best-restaurant} above, there are twelve restaurants which have minimum rating 4.8 out of 5 hence can be described as the very best restaurants in Melbourne. The prices, cuisines and locations in the top list are vary but with some patterns that will be further explored in the following paragraphs.
-
-Regarding the average price and location of the restaurants, figure \ref{fig:maps} shows the map plot of these highest-rated restaurants with their attribute of average food price for two person. The average price for two persons is differentiated by color, while larger circle indicates higher rating (4.9).
-
-It is seen from the figure \ref{fig:maps} that three restaurants are located in CBD, which is not surprising given the nature of CBD as the epicenter of Melbourne. Other restaurants are relatively still located close to CBD like Fitzroy, North Melbourne, Carlton and Hawthorn where eight restaurants base in. One outlier from the list is Shira Nui restaurant, where its location is quite far away from other restaurants in the group. This Japanese-sushi restaurant is located in Glen Waverley suburb which is about one and half hour driving from the CBD.
-
-Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and Australian food restaurants as indicated by figure \ref{fig:map-icon}. This fact support an opinion that ``Japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013'' \textcite{sushi}.
-
-Furthermore, 4 out of 12 highest-rated restaurants in Melbourne are Japanese-Sushi Restaurants, three are coffee shops, while the rest are french and australian food restaurants as shown by figure \ref{fig:map-icon}.
-This fact support an opinion that ``japanese food is still growing since UNESCO declared Japanese cuisine to be an Intangible Cultural Heritage in 2013'' \textcite{sushi}.
-
-\clearpage
-
-\hypertarget{popularity-of-different-cuisines-in-melbourne}{%
-\section{Popularity of different cuisines in Melbourne}\label{popularity-of-different-cuisines-in-melbourne}}
-
-In this section we will look at the popularity of different cuisines in Melbourne. The analysis is based on the total votes restaurants serving these cuisine have.
-
-\begin{figure}
-\centering
-\includegraphics{assignment4_files/figure-latex/Cuisine-Type-1.pdf}
-\caption{\label{fig:Cuisine-Type}Number of restaurants for different Cuisines in Melbourne}
-\end{figure}
-
-From Figure \ref{fig:Cuisine-Type}, we can see that Japanese cuisine dominates the Melbourne CBD area, with more than 25 restaurants. Korean and Chinese cuisine are second popular with more than 10 restaurants serving these cuisine in the CBD Area. Also we see that CBD has lots of Cafes which can be related to the nature of the area given that CBD is a business hub with a fast pace environment. According to \textcite{Coffee} while many people still rely on a quick takeaway on their way to work or on a break from the office, many cafe's have transformed into restaurants and dining spaces where people can enjoy their hot beverage over a meal or even just to sit down with friends or work colleagues.
-
-\begin{figure}
-\centering
-\includegraphics{assignment4_files/figure-latex/Cuisine-Votes-1.pdf}
-\caption{\label{fig:Cuisine-Votes}Number of Votes for different Cuisines in Melbourne}
-\end{figure}
-
-From Figure \ref{fig:Cuisine-Votes}, we can look at the number of votes for different cuisine types. The popularity of a cuisine can largely be explained the number of votes it gets. Japanese cuisine is very popular. According to \textcite{ATR}, `Chefs and restaurant owners agree diners have become more discerning and want healthy, sustainable and honest food'. The growing popularity has made Japanese restaurants a regular feature on the top restaurants list.
-
-\begin{table}[!h]
-
-\caption{\label{tab:top10-Jap}Top 10 voted Japanese restaurants in Melbourne}
-\centering
-\begin{tabular}[t]{llrr}
+\begin{tabular}[t]{lrrrr}
 \toprule
-name & locality & aggregate\_rating & Total\_Votes\\
+countriesAndTerritories & month & year & cases & deaths\\
 \midrule
-\cellcolor{gray!6}{Hakata Gensuke Ramen Professionals} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.7} & \cellcolor{gray!6}{2337}\\
-Purple Peanuts Japanese Cafe & CBD & 4.6 & 2143\\
-\cellcolor{gray!6}{Mr. Miyagi} & \cellcolor{gray!6}{Windsor} & \cellcolor{gray!6}{4.7} & \cellcolor{gray!6}{2024}\\
-Peko Peko & South Melbourne & 4.6 & 1989\\
-\cellcolor{gray!6}{Sakura Kaiten Sushi} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.6} & \cellcolor{gray!6}{1856}\\
+\rowcolor{gray!6}  Australia & 1 & 2020 & 7 & 0\\
+Australia & 2 & 2020 & 18 & 0\\
+\rowcolor{gray!6}  Australia & 3 & 2020 & 4532 & 19\\
+Australia & 4 & 2020 & 2189 & 71\\
+\rowcolor{gray!6}  Australia & 5 & 2020 & 183 & 7\\
 \addlinespace
-Calia & Emporium Melbourne & 4.5 & 1806\\
-\cellcolor{gray!6}{Shira Nui} & \cellcolor{gray!6}{Glen Waverley} & \cellcolor{gray!6}{4.8} & \cellcolor{gray!6}{1633}\\
-Shoya Nouvelle Wafu Cuisine & CBD & 4.7 & 1514\\
-\cellcolor{gray!6}{Kisumé} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.5} & \cellcolor{gray!6}{1346}\\
-Shou Sumiyaki & CBD & 4.4 & 1263\\
+France & 1 & 2020 & 6 & 0\\
+\rowcolor{gray!6}  France & 2 & 2020 & 51 & 2\\
+France & 3 & 2020 & 44493 & 3022\\
+\rowcolor{gray!6}  France & 4 & 2020 & 83892 & 21063\\
+France & 5 & 2020 & 10412 & 2223\\
+\addlinespace
+\rowcolor{gray!6}  Germany & 1 & 2020 & 5 & 0\\
+Germany & 2 & 2020 & 52 & 0\\
+\rowcolor{gray!6}  Germany & 3 & 2020 & 61856 & 583\\
+Germany & 4 & 2020 & 97206 & 5705\\
+\rowcolor{gray!6}  Germany & 5 & 2020 & 10099 & 1107\\
+\addlinespace
+Greece & 1 & 2020 & 0 & 0\\
+\rowcolor{gray!6}  Greece & 2 & 2020 & 4 & 0\\
+Greece & 3 & 2020 & 1208 & 43\\
+\rowcolor{gray!6}  Greece & 4 & 2020 & 1364 & 96\\
+Greece & 5 & 2020 & 134 & 12\\
+\addlinespace
+\rowcolor{gray!6}  Italy & 1 & 2020 & 3 & 0\\
+Italy & 2 & 2020 & 885 & 21\\
+\rowcolor{gray!6}  Italy & 3 & 2020 & 100851 & 11570\\
+Italy & 4 & 2020 & 101852 & 16091\\
+\rowcolor{gray!6}  Italy & 5 & 2020 & 14677 & 2713\\
+\addlinespace
+New\_Zealand & 1 & 2020 & 0 & 0\\
+\rowcolor{gray!6}  New\_Zealand & 2 & 2020 & 1 & 0\\
+New\_Zealand & 3 & 2020 & 646 & 1\\
+\rowcolor{gray!6}  New\_Zealand & 4 & 2020 & 482 & 18\\
+New\_Zealand & 5 & 2020 & 15 & 2\\
+\addlinespace
+\rowcolor{gray!6}  Russia & 1 & 2020 & 0 & 0\\
+Russia & 2 & 2020 & 2 & 0\\
+\rowcolor{gray!6}  Russia & 3 & 2020 & 1834 & 10\\
+Russia & 4 & 2020 & 97563 & 962\\
+\rowcolor{gray!6}  Russia & 5 & 2020 & 99277 & 855\\
+\addlinespace
+Sweden & 1 & 2020 & 0 & 0\\
+\rowcolor{gray!6}  Sweden & 2 & 2020 & 12 & 0\\
+Sweden & 3 & 2020 & 4016 & 146\\
+\rowcolor{gray!6}  Sweden & 4 & 2020 & 16274 & 2316\\
+Sweden & 5 & 2020 & 5619 & 758\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-In Table \ref{tab:top10-Jap} we can look at the top ten popular Japanese restaurants with votes count and the locality they are in.
+In Table \ref{tab:covidtab}.
 
 \clearpage
 
-\hypertarget{exploring-gluten-free-foodrestaurants-in-melbourne}{%
-\section{Exploring gluten free food/restaurants in Melbourne}\label{exploring-gluten-free-foodrestaurants-in-melbourne}}
+\hypertarget{citation-examples}{%
+\section{Citation examples}\label{citation-examples}}
 
-In this section we will be looking into restaurants with gluten free food.
-
-We will explore high end restaurants which offer gluten free food.
-To look for a good restaurant we will be using aggregate ratings.
-Popular restaurants will have more then 500 reviews.
-Being realistic, calculating average cost for one person's meal.
-Most Instagramable place.
-
-\hypertarget{checking-out-the-category-gluten-free}{%
-\subsection{Checking out the category ``Gluten-Free''!}\label{checking-out-the-category-gluten-free}}
-
-For diet conscious people and people with Gluten Allergy.
-
-\hypertarget{selecting-appropriate-variables-and-being-realistic}{%
-\subsection{Selecting appropriate variables and being realistic!}\label{selecting-appropriate-variables-and-being-realistic}}
-
-Picking required variables.
-
-\hypertarget{making-an-easy-to-understand-table}{%
-\subsection{Making an easy to understand table!}\label{making-an-easy-to-understand-table}}
-
-\begin{table}[!h]
-
-\caption{\label{tab:rest-gluten-free}Top Options}
-\centering
-\fontsize{8}{10}\selectfont
-\begin{tabular}[t]{l|r|r|r|l|l}
-\hline
-name & avg\_cost\_for\_one & all\_reviews\_count & photo\_count & locality & aggregate\_rating\\
-\hline
-\cellcolor{gray!6}{Jinda Thai Restaurant} & \cellcolor{gray!6}{40.0} & \cellcolor{gray!6}{1036} & \cellcolor{gray!6}{2477} & \cellcolor{gray!6}{Abbotsford} & \cellcolor{gray!6}{4.7}\\
-\hline
-Humble Rays & 25.0 & 838 & 2566 & Carlton & 4.8\\
-\hline
-\cellcolor{gray!6}{Vertue Coffee Roasters} & \cellcolor{gray!6}{25.0} & \cellcolor{gray!6}{465} & \cellcolor{gray!6}{1424} & \cellcolor{gray!6}{Carlton} & \cellcolor{gray!6}{4.6}\\
-\hline
-DOC Pizza \& Mozzarella Bar - Carlton & 35.0 & 926 & 763 & Carlton & 4.6\\
-\hline
-\cellcolor{gray!6}{The Hardware Societe} & \cellcolor{gray!6}{30.0} & \cellcolor{gray!6}{2108} & \cellcolor{gray!6}{4230} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.6}\\
-\hline
-Chin Chin & 67.5 & 3214 & 3270 & CBD & 4.6\\
-\hline
-\cellcolor{gray!6}{Dodee Paidang} & \cellcolor{gray!6}{37.5} & \cellcolor{gray!6}{483} & \cellcolor{gray!6}{1007} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.6}\\
-\hline
-Tipo 00 & 75.0 & 724 & 2129 & CBD & 4.9\\
-\hline
-\cellcolor{gray!6}{Rice Paper Scissors} & \cellcolor{gray!6}{40.0} & \cellcolor{gray!6}{992} & \cellcolor{gray!6}{2884} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.8}\\
-\hline
-San Telmo & 60.0 & 767 & 1208 & CBD & 4.6\\
-\hline
-\cellcolor{gray!6}{MoVida Bar De Tapas} & \cellcolor{gray!6}{60.0} & \cellcolor{gray!6}{900} & \cellcolor{gray!6}{1160} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.7}\\
-\hline
-+39 Pizzeria & 50.0 & 809 & 1185 & CBD & 4.6\\
-\hline
-\cellcolor{gray!6}{Cumulus Inc.} & \cellcolor{gray!6}{75.0} & \cellcolor{gray!6}{1125} & \cellcolor{gray!6}{1288} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.7}\\
-\hline
-Hakata Gensuke Ramen Professionals & 25.0 & 845 & 1189 & CBD & 4.7\\
-\hline
-\cellcolor{gray!6}{Sakura Kaiten Sushi} & \cellcolor{gray!6}{30.0} & \cellcolor{gray!6}{437} & \cellcolor{gray!6}{1111} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.6}\\
-\hline
-Le Petit Gateau & 15.0 & 351 & 517 & CBD & 4.9\\
-\hline
-\cellcolor{gray!6}{Vue de monde} & \cellcolor{gray!6}{300.0} & \cellcolor{gray!6}{985} & \cellcolor{gray!6}{2755} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.9}\\
-\hline
-Shoya Nouvelle Wafu Cuisine & 70.0 & 391 & 1316 & CBD & 4.7\\
-\hline
-\cellcolor{gray!6}{Wonderbao} & \cellcolor{gray!6}{10.0} & \cellcolor{gray!6}{773} & \cellcolor{gray!6}{773} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.6}\\
-\hline
-Brother Baba Budan & 7.5 & 545 & 446 & CBD & 4.6\\
-\hline
-\cellcolor{gray!6}{Patricia Coffee Brewers} & \cellcolor{gray!6}{7.5} & \cellcolor{gray!6}{364} & \cellcolor{gray!6}{292} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.9}\\
-\hline
-Shimbashi Soba \& Sake Bar & 27.5 & 368 & 923 & CBD & 4.6\\
-\hline
-\cellcolor{gray!6}{Maha Restaurant} & \cellcolor{gray!6}{150.0} & \cellcolor{gray!6}{931} & \cellcolor{gray!6}{1240} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.7}\\
-\hline
-La Belle Miette & 10.0 & 478 & 427 & CBD & 4.8\\
-\hline
-\cellcolor{gray!6}{Little Rogue} & \cellcolor{gray!6}{10.0} & \cellcolor{gray!6}{334} & \cellcolor{gray!6}{671} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.7}\\
-\hline
-Purple Peanuts Japanese Cafe & 20.0 & 490 & 661 & CBD & 4.6\\
-\hline
-\cellcolor{gray!6}{Coda} & \cellcolor{gray!6}{72.5} & \cellcolor{gray!6}{562} & \cellcolor{gray!6}{704} & \cellcolor{gray!6}{CBD} & \cellcolor{gray!6}{4.6}\\
-\hline
-Punch Lane & 75.0 & 430 & 862 & CBD & 4.8\\
-\hline
-\cellcolor{gray!6}{Aka Siro} & \cellcolor{gray!6}{40.0} & \cellcolor{gray!6}{238} & \cellcolor{gray!6}{491} & \cellcolor{gray!6}{Collingwood} & \cellcolor{gray!6}{4.8}\\
-\hline
-Kenzan Japanese & 80.0 & 263 & 596 & Collins Place & 4.6\\
-\hline
-\cellcolor{gray!6}{Addict Food \& Coffee} & \cellcolor{gray!6}{20.0} & \cellcolor{gray!6}{570} & \cellcolor{gray!6}{1350} & \cellcolor{gray!6}{Fitzroy} & \cellcolor{gray!6}{4.6}\\
-\hline
-Naked For Satan & 40.0 & 874 & 885 & Fitzroy & 4.6\\
-\hline
-\cellcolor{gray!6}{Lune Croissanterie} & \cellcolor{gray!6}{12.5} & \cellcolor{gray!6}{754} & \cellcolor{gray!6}{1831} & \cellcolor{gray!6}{Fitzroy} & \cellcolor{gray!6}{4.9}\\
-\hline
-Faraday's Cage & 22.5 & 382 & 1096 & Fitzroy & 4.7\\
-\hline
-\cellcolor{gray!6}{Cutler \& Co} & \cellcolor{gray!6}{100.0} & \cellcolor{gray!6}{570} & \cellcolor{gray!6}{988} & \cellcolor{gray!6}{Fitzroy} & \cellcolor{gray!6}{4.7}\\
-\hline
-Hell of the North & 67.5 & 418 & 851 & Fitzroy & 4.7\\
-\hline
-\cellcolor{gray!6}{Hinoki Japanese Pantry} & \cellcolor{gray!6}{27.5} & \cellcolor{gray!6}{274} & \cellcolor{gray!6}{383} & \cellcolor{gray!6}{Fitzroy} & \cellcolor{gray!6}{4.9}\\
-\hline
-Laksa King & 35.0 & 1304 & 1233 & Flemington & 4.6\\
-\hline
-\cellcolor{gray!6}{Shira Nui} & \cellcolor{gray!6}{75.0} & \cellcolor{gray!6}{424} & \cellcolor{gray!6}{754} & \cellcolor{gray!6}{Glen Waverley} & \cellcolor{gray!6}{4.8}\\
-\hline
-Shanklin Cafe & 25.0 & 529 & 1242 & Hawthorn & 4.8\\
-\hline
-\cellcolor{gray!6}{The Proud Peacock} & \cellcolor{gray!6}{22.5} & \cellcolor{gray!6}{630} & \cellcolor{gray!6}{481} & \cellcolor{gray!6}{Mount Waverley} & \cellcolor{gray!6}{4.8}\\
-\hline
-Beatrix & 15.0 & 387 & 645 & North Melbourne & 4.9\\
-\hline
-\cellcolor{gray!6}{Dexter} & \cellcolor{gray!6}{55.0} & \cellcolor{gray!6}{685} & \cellcolor{gray!6}{1498} & \cellcolor{gray!6}{Preston} & \cellcolor{gray!6}{4.9}\\
-\hline
-Serotonin Eatery & 32.5 & 900 & 1897 & Richmond & 4.6\\
-\hline
-\cellcolor{gray!6}{Minamishima} & \cellcolor{gray!6}{225.0} & \cellcolor{gray!6}{297} & \cellcolor{gray!6}{1435} & \cellcolor{gray!6}{Richmond} & \cellcolor{gray!6}{4.9}\\
-\hline
-Attica & 300.0 & 497 & 1852 & Ripponlea & 4.8\\
-\hline
-\cellcolor{gray!6}{Komeyui} & \cellcolor{gray!6}{75.0} & \cellcolor{gray!6}{249} & \cellcolor{gray!6}{1316} & \cellcolor{gray!6}{South Melbourne} & \cellcolor{gray!6}{4.7}\\
-\hline
-Peko Peko & 25.0 & 517 & 828 & South Melbourne & 4.6\\
-\hline
-\cellcolor{gray!6}{Bibelot} & \cellcolor{gray!6}{15.0} & \cellcolor{gray!6}{428} & \cellcolor{gray!6}{1437} & \cellcolor{gray!6}{South Melbourne} & \cellcolor{gray!6}{4.8}\\
-\hline
-Agathé Pâtisserie & 7.5 & 322 & 632 & South Melbourne Market, South Melbourne & 4.9\\
-\hline
-\cellcolor{gray!6}{Wagyu Ya} & \cellcolor{gray!6}{75.0} & \cellcolor{gray!6}{395} & \cellcolor{gray!6}{1625} & \cellcolor{gray!6}{South Yarra} & \cellcolor{gray!6}{4.7}\\
-\hline
-Burch \& Purchese Sweet Studio & 12.5 & 485 & 868 & South Yarra & 4.8\\
-\hline
-\cellcolor{gray!6}{Mr. Miyagi} & \cellcolor{gray!6}{40.0} & \cellcolor{gray!6}{908} & \cellcolor{gray!6}{2311} & \cellcolor{gray!6}{Windsor} & \cellcolor{gray!6}{4.7}\\
-\hline
-Journeyman & 27.5 & 838 & 1535 & Windsor & 4.7\\
-\hline
-\end{tabular}
-\end{table}
-
-The Table \ref{tab:rest-gluten-free} shows the name of the restarunts in Melbourne, their locality, number of reviews recieved, aggregate ratings, photo count and how much it costs for one persons gluten free meal on average.
-
-\hypertarget{visualizing-findings}{%
-\subsection{Visualizing findings!}\label{visualizing-findings}}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assignment4_files/figure-latex/review-price-relation-1} 
-
-}
-
-\caption{Worth the money!}\label{fig:review-price-relation}
-\end{figure}
-
-The graph Figure \ref{fig:review-price-relation} shows top restaurants in Melbourne, using the category ``gluten free'', with an intercept at 500 reviews count. In the highest rating of 4.9, Lune Croissanterie is the best restaurant with very reasonable average price of 12.50 AUD per person. While, Vue de monde is second on the list with a rating of 4.8 but very pricy at an average cost of 300 AUD.
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assignment4_files/figure-latex/instagrammable-plot-1} 
-
-}
-
-\caption{Can I instagram it?}\label{fig:instagrammable-plot}
-\end{figure}
-
-The graph Figure \ref{fig:instagrammable-plot} visualizes restaurants with good reviews and potential of each restaurant on how much instagrammable it is. Lune Croissanterie has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
-
-In Table \ref{tab:top10-Jap} we can look at the top 10 popular Japanese restaurants in Melbourne along with their location and rating. `Don-Don' is a very popular Japanese restaurant with 3168 votes. `Shira Nui' is the highest rated restaurant with an aggregated rating of 4.8 out of 5.
-
-The graph Figure \ref{fig:instagrammable-plot} visualizes restaurants with good reviews and potential of each restaurant on how much instagrammable it is. Lune Crissantete has the best review rating with a high photo count of 1813. While, The Hardware Societe has the highest photo count at 4224, with a good rating of 4.6.
-
-\clearpage
-
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
-
-\begin{itemize}
-\tightlist
-\item
-  From this analysis we find there is no real relationship between restaurant prices and quality suggesting expensive food is not better than cheap.
-\item
-  Melbourne has a strong multicultural cuisines options for people to choose from. Japanese being the most popular has the highest number of restaurants. Popularity of Cafes are also high.
-\item
-  Most of the very best restaurants in Melbourne is located near CBD.
-\item
-  Melbourne has quite a few good restaurants which serve gluten free food with a high review count. Most of the the same restaurants have a high photo count as well hence it is instagrammable in my opinion.
-\end{itemize}
-
-\clearpage
+\textcite{BC64} and this is another article about COVID \textcite{bai2020presumed} and I can also cite R packages as follows \textcite{ggplot2}
 
 \printbibliography
 
