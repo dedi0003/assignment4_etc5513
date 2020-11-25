@@ -1,7 +1,6 @@
 # Object file
 *.o
 *.png
-*.pdf
 *.tex
 .RData
 .Rhistory
